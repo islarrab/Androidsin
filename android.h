@@ -1,8 +1,29 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include <limits.h>
+
 int theta[36] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; 
-/* x,y,z */
+
+// Formato:
+// { {xmin, xmax}, {ymin, ymax}, {zmin, zmax}, ... }
+
+int limits[36][2] = {
+	{INT_MIN, INT_MAX}, {INT_MIN, INT_MAX}, {INT_MIN, INT_MAX}, // ???
+	{INT_MIN, INT_MAX}, {INT_MIN, INT_MAX}, {INT_MIN, INT_MAX}, // Torso
+	{-10,	10},	{-10,	10},	{-90,	90},	// Cabeza
+	{0,		0},		{0,		0},		{0,		0},		// Cuello
+	{-180,	45},	{-180,	0},		{-180,	0},		// Brazo derecho superior
+	{-160,	0},		{0,		0},		{0,		0},		// Brazo derecho inferior
+	{-180,	45},	{0,		180},	{0,		180},	// Brazo izquierdo superior
+	{-160,	0},		{0,		0},		{0,		0},		// Brazo izquierdo inferior
+	{-90,	10},	{-45,	10},	{-45,	45},	// Pierna derecha superior
+	{0,		160},	{0,		0},		{0,		0},		// Pierna derecha inferior
+	{-90,	10},	{-10,	45},	{-45,	45},	// Pierna izquierda superior
+	{0,		160},	{0,		0},		{0,		0},		// Pierna izquierda inferior
+};
+
+int drawAxes = 1;
 
 class Node {
 public:
@@ -13,7 +34,6 @@ public:
 	void setSibling(Node*);
 	void setChild(Node*);
 	GLfloat m[16];
-	
 
 private:
 	Node* sibling;
@@ -68,6 +88,8 @@ public:
 		glRotatef(theta[4],0,1,0);
 		glRotatef(theta[5],0,0,1);
 
+		if (drawAxes) displayAxes();
+
 		gluCylinder(quad, TORSO_WIDTH, TORSO_WIDTH, TORSO_LENGTH, 100, 1);
 		gluDisk(quad, 0, TORSO_WIDTH, 50, 1);
 		glTranslatef(0, 0, TORSO_LENGTH);
@@ -83,7 +105,9 @@ public:
 		glRotatef(theta[9],1,0,0);
 		glRotatef(theta[10],0,1,0);
 		glRotatef(theta[11],0,0,1);
-		
+
+		if (drawAxes) displayAxes();
+
 		gluCylinder(quad, NECK_WIDTH, NECK_WIDTH, NECK_LENGTH, 100, 1);
 	}
 };	
@@ -95,6 +119,8 @@ class Head : public Node {
 		glRotatef(theta[6],1,0,0);//-90
 		glRotatef(theta[7],0,1,0);
 		glRotatef(theta[8],0,0,1);
+		
+		if (drawAxes) displayAxes();
 
 		drawHalfSphere(HEAD_SIZE);
 		gluDisk(quad, 0, HEAD_SIZE, 50, 1);
@@ -143,6 +169,8 @@ class UpperRightArm : public Node {
 		glRotatef(theta[13],0,1,0);
 		glRotatef(theta[14],0,0,1);
 		
+		if (drawAxes) displayAxes();
+
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
 	}
@@ -156,6 +184,8 @@ class LowerRightArm : public Node {
 		glRotatef(theta[16],0,1,0);
 		glRotatef(theta[17],0,0,1);
 		
+		if (drawAxes) displayAxes();
+
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
 		glTranslatef(0,0, ARM_LENGTH);
@@ -170,6 +200,9 @@ class UpperLeftArm : public Node {
 		glRotatef(theta[18],1,0,0);//90
 		glRotatef(theta[19],0,1,0);
 		glRotatef(theta[20],0,0,1);
+		
+		if (drawAxes) displayAxes();
+
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
 	}
@@ -182,6 +215,9 @@ class LowerLeftArm : public Node {
 		glRotatef(theta[21],1,0,0);//90
 		glRotatef(theta[22],0,1,0);
 		glRotatef(theta[23],0,0,1);
+		
+		if (drawAxes) displayAxes();
+
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
 		glTranslatef(0,0, ARM_LENGTH);
@@ -197,6 +233,8 @@ class UpperRightLeg : public Node {
 		glRotatef(theta[25],0,1,0);
 		glRotatef(theta[26],0,0,1);
 		
+		if (drawAxes) displayAxes();
+
 		gluSphere(quad, LEG_WIDTH, 50, 50);
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
 	}
@@ -209,6 +247,9 @@ class LowerRightLeg : public Node {
 		glRotatef(theta[27],1,0,0);//90
 		glRotatef(theta[28],0,1,0);
 		glRotatef(theta[29],0,0,1);
+		
+		if (drawAxes) displayAxes();
+
 		gluSphere(quad, LEG_WIDTH, 50, 50);
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
 		glTranslatef(0,0, LEG_LENGTH);
@@ -223,6 +264,8 @@ class UpperLeftLeg : public Node {
 		glRotatef(theta[30],1,0,0);//90
 		glRotatef(theta[31],0,1,0);
 		glRotatef(theta[32],0,0,1);
+		
+		if (drawAxes) displayAxes();
 
 		gluSphere(quad, LEG_WIDTH, 50, 50);
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
@@ -236,6 +279,9 @@ class LowerLeftLeg : public Node {
 		glRotatef(theta[33],1,0,0);//90
 		glRotatef(theta[34],0,1,0);
 		glRotatef(theta[35],0,0,1);
+		
+		if (drawAxes) displayAxes();
+
 		gluSphere(quad, LEG_WIDTH, 50, 50);
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
 		glTranslatef(0,0, LEG_LENGTH);

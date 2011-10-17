@@ -123,18 +123,18 @@ void displayevent(void)
 	glutSwapBuffers();
 }
 
-int thetIndex;
 void specialkeyevent( int key, int Xx, int Yy )
 {
 	// manejo de teclas especiales
-	thetIndex = menu * 3;
+	int i = menu * 3;
+	int x = 0;
 	switch ( key ) {
-	case GLUT_KEY_LEFT:	theta[thetIndex+1] -= velocidad; break;
-	case GLUT_KEY_RIGHT:    theta[thetIndex+1] += velocidad; break;
-	case GLUT_KEY_UP:	theta[(thetIndex)] -= velocidad; break;
-	case GLUT_KEY_DOWN:	theta[(thetIndex)] += velocidad; break;
-	case GLUT_KEY_F1: theta[(thetIndex+2)] -= velocidad; break;
-	case GLUT_KEY_F2: theta[(thetIndex+2)] += velocidad; break;
+	case GLUT_KEY_LEFT:	x = theta[i+1] - velocidad; theta[i+1] = (x < limits[i+1][0])? limits[i+1][0] : x; break;
+	case GLUT_KEY_RIGHT: x = theta[i+1] + velocidad; theta[i+1] = (x > limits[i+1][1])? limits[i+1][1] : x; break;
+	case GLUT_KEY_UP: x = theta[i] - velocidad; theta[i] = (x < limits[i][0])? limits[i][0] : x; break;
+	case GLUT_KEY_DOWN: x = theta[i] + velocidad; theta[i] = (x > limits[i][1])? limits[i][1] : x; break;
+	case GLUT_KEY_F1: x = theta[i+2] - velocidad; theta[i+2] = (x < limits[i+2][0])? limits[i+2][0] : x; break;
+	case GLUT_KEY_F2: x = theta[i+2] + velocidad; theta[i+2] = (x > limits[i+2][1])? limits[i+2][1] : x; break;
 	case GLUT_KEY_F3: break;
 	case GLUT_KEY_F4: break;
 	case GLUT_KEY_F5: break;
