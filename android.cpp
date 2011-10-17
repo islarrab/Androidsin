@@ -317,7 +317,7 @@ int main(int argc, char** argv)
 	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
 	glutCreateWindow( "" );
 
-	glutSetWindowTitle( "Hello Box " );
+	glutSetWindowTitle("Android");
 
 	// inicialización de los datos del programa
 	z = -10;
