@@ -1,13 +1,6 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include <stdio.h>
-#include <GL/glut.h>
-#include <GL/glu.h>
-#include <GL/gl.h>
-#include <stdlib.h>
-/*#include <conio.h>*/
-
 int theta[36] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; 
 /* x,y,z */
 
@@ -89,9 +82,9 @@ class Neck : public Node {
 public:
 	void draw() const {
 		GLUquadric* quad = gluNewQuadric();
-		glRotatef(theta[6],1,0,0);
-		glRotatef(theta[7],0,1,0);
-		glRotatef(theta[8],0,0,1);
+		glRotatef(theta[9],1,0,0);
+		glRotatef(theta[10],0,1,0);
+		glRotatef(theta[11],0,0,1);
 		
 		gluCylinder(quad, NECK_WIDTH, NECK_WIDTH, NECK_LENGTH, 100, 1);
 	}
@@ -101,9 +94,9 @@ class Head : public Node {
 	public:
 	void draw() const {
 		GLUquadric* quad = gluNewQuadric();
-		glRotatef(theta[9],1,0,0);//-90
-		glRotatef(theta[10],0,1,0);
-		glRotatef(theta[11],0,0,1);
+		glRotatef(theta[6],1,0,0);//-90
+		glRotatef(theta[7],0,1,0);
+		glRotatef(theta[8],0,0,1);
 
 		displayAxes();
 

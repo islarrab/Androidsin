@@ -24,22 +24,6 @@
 GLfloat z, angx, angy;
 const int NUM_PARTES = 11;
 
-/* Grados de libertad de...
- 0 - Torso
- 1 - Cabeza
- 2 - Brazo Izquierdo Superior
- 3 - Brazo Izquierdo Inferior
- 4 - Mano Izquierda
- 5 - Brazo Derecho Superior
- 6 - Brazo Derecho Inferior
- 7 - Mano Derecha
- 8 - Pierna Izquierda Superior
- 9 - Pierna Izquierda Inferior
-10 - Pie Izquierdo
-11 - Pierna Derecha Superior
-12 - Pierna Derecha Inferior
-13 - Pie Derecho
-*/
 int velocidad = 5;
 
 int menu = TORSO;
@@ -138,6 +122,7 @@ void displayevent(void)
 	// muestra la escena
 	glutSwapBuffers();
 }
+
 int thetIndex;
 void specialkeyevent( int key, int Xx, int Yy )
 {

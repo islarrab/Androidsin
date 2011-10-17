@@ -1,2 +1,5 @@
+*.exe
+*.pdb
 *.vcxproj*
 Release/
+Android/
