@@ -23,7 +23,7 @@ int limits[36][2] = {
 	{0,		160},	{0,		0},		{0,		0},		// Pierna izquierda inferior
 };
 
-int drawAxes = 1;
+int drawAxes = 0;
 
 class Node {
 public:
