@@ -257,7 +257,6 @@ void init(){
 using namespace std;
 void lecturaDeArchivo()
 {
-	float medidas[NUM_PARTES];
 	ifstream archivo; // Apuntador de archivo para leer las medidas de las partes
 	string linea;
 
@@ -315,7 +314,7 @@ int main(int argc, char** argv)
 	glutInitWindowSize( 600, 600 );
 	glutInitWindowPosition( 100, 100 );
 	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
-	glutCreateWindow( "" );
+	glutCreateWindow("");
 
 	glutSetWindowTitle("Android");
 
@@ -332,10 +331,7 @@ int main(int argc, char** argv)
 	glutCreateMenu(menuCallback);
 
 	glutAddMenuEntry("Torso",TORSO);
-
 	glutAddMenuEntry("Cabeza",HEAD);
-	glutAddMenuEntry("Cuello",NECK);
-
 	glutAddMenuEntry("Brazo Derecho Superior",URA);
 	glutAddMenuEntry("Brazo Derecho Inferior",LRA);
 	glutAddMenuEntry("Brazo Izquierdo Superior",ULA);

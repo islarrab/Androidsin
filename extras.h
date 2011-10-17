@@ -147,9 +147,6 @@ void drawSquarePrism(float x, float y, float z) {
 	glEnd();
 }
 
- /*scalex - scaling of sphere around x-axis
-   scaley - scaling of sphere around y-axis
-   r - radius of sphere */
  void drawHalfSphere(GLfloat r) {
 	// set up clip plane
 	double clip_plane1[]={0,0,1,0};
