@@ -68,8 +68,6 @@ public:
 		glRotatef(theta[4],0,1,0);
 		glRotatef(theta[5],0,0,1);
 
-		displayAxes();
-
 		gluCylinder(quad, TORSO_WIDTH, TORSO_WIDTH, TORSO_LENGTH, 100, 1);
 		gluDisk(quad, 0, TORSO_WIDTH, 50, 1);
 		glTranslatef(0, 0, TORSO_LENGTH);
@@ -97,8 +95,6 @@ class Head : public Node {
 		glRotatef(theta[6],1,0,0);//-90
 		glRotatef(theta[7],0,1,0);
 		glRotatef(theta[8],0,0,1);
-
-		displayAxes();
 
 		drawHalfSphere(HEAD_SIZE);
 		gluDisk(quad, 0, HEAD_SIZE, 50, 1);
@@ -147,8 +143,6 @@ class UpperRightArm : public Node {
 		glRotatef(theta[13],0,1,0);
 		glRotatef(theta[14],0,0,1);
 		
-		displayAxes();
-
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
 	}
@@ -162,13 +156,10 @@ class LowerRightArm : public Node {
 		glRotatef(theta[16],0,1,0);
 		glRotatef(theta[17],0,0,1);
 		
-		displayAxes();
-
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
 		glTranslatef(0,0, ARM_LENGTH);
 		gluSphere(quad, ARM_WIDTH, 50, 50);
-		//glTranslatef((0.5+ARM_WIDTH), ARM_LENGTH, 0);
 	}
 };
 
@@ -206,10 +197,7 @@ class UpperRightLeg : public Node {
 		glRotatef(theta[25],0,1,0);
 		glRotatef(theta[26],0,0,1);
 		
-		displayAxes();
-
 		gluSphere(quad, LEG_WIDTH, 50, 50);
-		
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
 	}
 };
@@ -235,9 +223,8 @@ class UpperLeftLeg : public Node {
 		glRotatef(theta[30],1,0,0);//90
 		glRotatef(theta[31],0,1,0);
 		glRotatef(theta[32],0,0,1);
-		//glTranslatef(0.5,3, 0);
+
 		gluSphere(quad, LEG_WIDTH, 50, 50);
-		
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
 	}
 };
