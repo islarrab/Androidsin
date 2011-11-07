@@ -122,7 +122,7 @@ class Head : public Node {
 		
 		if (drawAxes) displayAxes();
 
-		drawHalfSphere(HEAD_SIZE);
+		drawHalfSphere(10, 10, HEAD_SIZE);
 		gluDisk(quad, 0, HEAD_SIZE, 50, 1);
 
 		glColor3f(1,1,1);
