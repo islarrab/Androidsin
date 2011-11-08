@@ -149,43 +149,35 @@ void drawSquarePrism(float x, float y, float z) {
 	glEnd();
 }
 
- void drawHalfSphere(GLint slices, GLint stacks, GLfloat radius) {
-	/*
-	 // set up clip plane
-	double clip_plane1[]={0,0,1,0};
-	glClipPlane(GL_CLIP_PLANE1,clip_plane1);
-	glEnable(GL_CLIP_PLANE1);
-	// draw sphere
-	GLUquadric* quad = gluNewQuadric();
-	gluSphere(quad,r,20,20);
-	gluDeleteQuadric(quad);
-	glDisable(GL_CLIP_PLANE1);
-	*/
-	 /*scalex - scaling of sphere around x-axis
-   scaley - scaling of sphere around y-axis
-   r - radius of sphere
-  */
+ void drawHalfSphere(GLfloat r, GLint slices, GLint stacks) {
+	const double M_PI = 3.14159265;
+	glBegin(GL_QUAD_STRIP);
+	int i,j;
+	double arc = 2*M_PI/slices;
+	double z0 = 0;
+	double z1 = 0;
+	double disc_r0 = r;
+	double disc_r1 = r;
+	 for (i = 0; i<stacks; i++) {
+		z0 = z1;
+		z1 = r/stacks*(i+1);
+		disc_r0 = disc_r1;
+		disc_r1 = sqrt(r*r-z1*z1);
 
-	double const M_PI = 3.14159265;
-	double radius2 = radius;
-	GLfloat currentAngle,currentHeight=0; //Angulo Actual, Altura Actual
-	GLfloat stackHeight=radius/stacks; // Para reducir el esfuerzo computacional en ciclos
-	const GLfloat pi180=M_PI/180; // Radianes a Grados
-	
-   for (GLint j=0;j<stacks;j++){ // Ciclo para los Stacks
-	radius = radius2;
-	radius2 = sqrt(radius*radius-currentHeight*currentHeight);
-    glBegin(GL_QUAD_STRIP);
-    for (GLint i=0;i<=slices;i++){ // Ciclo para los Slices
-        currentAngle= 360/slices*i * pi180; //Convertir el Angulo a Grados
-        glNormal3f(sin(currentAngle),cos(currentAngle),0); //Asignar la Normal
-        glVertex3d(cos(currentAngle)*radius,sin(currentAngle)*radius,currentHeight); //Superior
-        glVertex3d(cos(currentAngle)*radius2,sin(currentAngle)*radius2,currentHeight+stackHeight); //Inferior
-    }
-    glEnd();
-	currentHeight += stackHeight;
- }
+		for (j = 0; j<=slices; j++) {
+			double angle = arc*j;
 
+			double x0 = cos(angle) * disc_r0;
+			double y0 = sin(angle) * disc_r0;
+			double x1 = cos(angle) * disc_r1;
+			double y1 = sin(angle) * disc_r1;
+			glNormal3f(x0,y0,z0);
+			glVertex3f(x0,y0,z0);
+			glNormal3f(x1,y1,z1);
+			glVertex3f(x1,y1,z1);
+		}
+	 }
+	 glEnd();
 }
 
 void coloring(int color){

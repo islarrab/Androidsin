@@ -96,7 +96,7 @@ void displayevent(void)
 
 	// verfica superficies visibles
 	glEnable( GL_DEPTH_TEST );
-
+	
 	glMatrixMode(GL_MODELVIEW);
 
 	// Hagace la luz
@@ -135,17 +135,17 @@ void specialkeyevent( int key, int Xx, int Yy )
 	case GLUT_KEY_DOWN: x = theta[i] + velocidad; theta[i] = (x > limits[i][1])? limits[i][1] : x; break;
 	case GLUT_KEY_F1: x = theta[i+2] - velocidad; theta[i+2] = (x < limits[i+2][0])? limits[i+2][0] : x; break;
 	case GLUT_KEY_F2: x = theta[i+2] + velocidad; theta[i+2] = (x > limits[i+2][1])? limits[i+2][1] : x; break;
-	case GLUT_KEY_F3: break;
-	case GLUT_KEY_F4: break;
-	case GLUT_KEY_F5: break;
-	case GLUT_KEY_F6: break;
+	case GLUT_KEY_F3: stacks+=1; break;
+	case GLUT_KEY_F4: stacks-=1; break;
+	case GLUT_KEY_F5: slices+=1; break;
+	case GLUT_KEY_F6: slices-=1; break;
 	case GLUT_KEY_F7: break;
 	case GLUT_KEY_F8: break;
 	case GLUT_KEY_F9: break;
 	case GLUT_KEY_F10: break;
 	case GLUT_KEY_F11: z += 0.1; break;
 	case GLUT_KEY_F12: z -= 0.1; break;
-	case GLUT_KEY_INSERT: break;
+	case GLUT_KEY_INSERT: drawAxes = (drawAxes==0) ? 1 : 0; break;
 	case GLUT_KEY_HOME: break;
 	case GLUT_KEY_PAGE_UP: break;
 	}

@@ -3,6 +3,8 @@
 
 #include <limits.h>
 
+int stacks=10, slices=10;
+
 int theta[36] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; 
 
 // Formato:
@@ -122,7 +124,7 @@ class Head : public Node {
 		
 		if (drawAxes) displayAxes();
 
-		drawHalfSphere(10, 10, HEAD_SIZE);
+		drawHalfSphere(HEAD_SIZE, stacks, slices);
 		gluDisk(quad, 0, HEAD_SIZE, 50, 1);
 
 		glColor3f(1,1,1);
