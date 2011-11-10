@@ -17,6 +17,7 @@ void displayAxes();
 void drawCube(float);
 void drawSquarePrism(float,float,float);
 void coloring(int);
+void drawHalfSphere(GLfloat, GLint, GLint);
 
 void displayAxes() {
 	float size = 10;
@@ -149,11 +150,12 @@ void drawSquarePrism(float x, float y, float z) {
 	glEnd();
 }
 
- void drawHalfSphere(GLfloat r, GLint slices, GLint stacks) {
-	const double M_PI = 3.14159265;
+
+void drawHalfSphere(GLfloat r, GLint slices, GLint stacks){
+	const double Mm_PI = 3.14159265;
 	glBegin(GL_QUAD_STRIP);
 	int i,j;
-	double arc = 2*M_PI/slices;
+	double arc = 2*Mm_PI/slices;
 	double z0 = 0;
 	double z1 = 0;
 	double disc_r0 = r;
