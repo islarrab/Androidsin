@@ -8,13 +8,14 @@ enum {
 	TORSO_MATERIAL = 1, NECK_MATERIAL = 2, HEAD_MATERIAL = 3, EYE_MATERIAL = 4
 } MaterialDisplayList;
 enum {
-	LIGHT_OFF, LIGHT_WHITE, LIGHT_RED, LIGHT_GREEN
+	LIGHT_OFF, LIGHT_WHITE, LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE
 } LightValues;
 
 GLfloat 
-	red_light[] = {1.0, 0.0, 0.0, 1.0}, 
-	green_light[] = {0.0, 1.0, 0.0, 1.0}, 
-	white_light[] = {1.0, 1.0, 1.0, 1.0}, 
+	red_light[] = {1, 0, 0, 1}, 
+	green_light[] = {0, 1, 0, 1},
+	blue_light[] = {0, 0, 1, 1},
+	white_light[] = {1, 1, 1, 1}, 
 	left_light_position[] = {-1.0, 0.0, 1.0, 0.0}, 
 	right_light_position[] = {10, 0.0, -5, 0.0},
 	green_plastic_ambient[] = {0, 0, 0, 1}, 
@@ -29,6 +30,7 @@ GLfloat
 void initMaterials();
 void material(int, GLfloat*, GLfloat*, GLfloat*, GLfloat);
 void materialSelect(int, int);
+void lightSelect(GLenum, int);
 
 void material(int dlist, GLfloat * ambient, GLfloat * diffuse, 
 	GLfloat * specular, GLfloat shininess) {
@@ -36,7 +38,7 @@ void material(int dlist, GLfloat * ambient, GLfloat * diffuse,
 		glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
 		glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
 		glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-		glMaterialf(GL_FRONT, GL_SHININESS, shininess);
+		glMaterialf(GL_FRONT, GL_SHININESS, shininess * 128);
 		glEndList();
 }
 
@@ -54,6 +56,28 @@ void initMaterials() {
 	materialSelect(NECK_MATERIAL, GREEN_PLASTIC);
 	materialSelect(HEAD_MATERIAL, GREEN_PLASTIC);
 	materialSelect(EYE_MATERIAL, WHITE_PLASTIC);
+}
+
+void lightSelect(GLenum which, int value) {
+	glEnable(which);
+	switch (value) {
+	case LIGHT_OFF:
+		glDisable(which);
+		break;
+	case LIGHT_RED:
+		glLightfv(which, GL_DIFFUSE, red_light);
+		break;
+	case LIGHT_WHITE:
+		glLightfv(which, GL_DIFFUSE, white_light);
+		break;
+	case LIGHT_GREEN:
+		glLightfv(which, GL_DIFFUSE, green_light);
+		break;
+	case LIGHT_BLUE:
+		glLightfv(which, GL_DIFFUSE, blue_light);
+		break;
+	}
+	glutPostRedisplay();
 }
 
 #endif
