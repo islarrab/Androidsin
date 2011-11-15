@@ -150,7 +150,6 @@ void drawSquarePrism(float x, float y, float z) {
 	glEnd();
 }
 
-
 void drawHalfSphere(GLfloat r, GLint slices, GLint stacks){
 	const double PI = 3.14159265;
 	int i,j;

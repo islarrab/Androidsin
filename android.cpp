@@ -6,6 +6,7 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 
+#include "materiales.h"
 #include "extras.h"
 #include "android.h"
 
@@ -21,9 +22,7 @@
 #define ULL   10 //UpperLeftLeg
 #define LLL   11 //LowerLeftLeg
 
-GLfloat z, angx, angy,
-white_light[] = {1, 1, 1, 1},
-light_position[] = {-1.0, 0.0, 1.0, 0.0};
+GLfloat z, angx, angy;
 
 const int NUM_PARTES = 11;
 
@@ -106,9 +105,14 @@ void displayevent(void)
 	// Hagace la luz
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
-	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
+
+	glEnable(GL_LIGHT1);
+	glLightfv(GL_LIGHT1, GL_POSITION, left_light_position);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, white_light);
+
+	glEnable(GL_LIGHT2);
+	glLightfv(GL_LIGHT2, GL_POSITION, right_light_position);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, white_light);
 	// y la luz se hizo
 
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
@@ -176,89 +180,6 @@ void reshapeevent(GLsizei width, GLsizei LENGTH)
 
 } // reshape
 
-void init(){
-	// Se arma el arbol
-	// Torso	
-	torso->setChild(neck);
-	
-	// Cabeza
-	neck->setChild(head);
-	neck->setSibling(ulArm);
-
-	// Brazo Derecho
-	urArm->setSibling(ulLeg);
-	urArm->setChild(lrArm);
-
-	// Brazo Izquierdo
-	ulArm->setSibling(urArm);
-	ulArm->setChild(llArm);
-	
-	// Pierna Izquierda
-	ulLeg->setSibling(urLeg);
-	ulLeg->setChild(llLeg);
-
-	// Pierna Derecha
-	urLeg->setChild(lrLeg);
-
-	//utilizar las funciones de OpenGL para crear la matriz
-	
-	// Torso
-	glLoadIdentity();
-	glGetFloatv(GL_MODELVIEW_MATRIX, torso->m);
-
-	// Cuello
-	glLoadIdentity();
-	glRotatef(180, 1, 0, 0);
-	glGetFloatv(GL_MODELVIEW_MATRIX, neck->m);
-
-	// Cabeza
-	glLoadIdentity();
-	glTranslatef(0,0,NECK_LENGTH);
-	glGetFloatv(GL_MODELVIEW_MATRIX, head->m);
-
-	// Brazo Derecho Superior
-	glLoadIdentity();
-	glTranslatef(-(TORSO_WIDTH+0.4), 0, 0.7);
-	glGetFloatv(GL_MODELVIEW_MATRIX, urArm->m);
-
-	// Brazo Derecho Inferior
-	glLoadIdentity();
-	glTranslatef(0, 0, ARM_LENGTH);
-	glGetFloatv(GL_MODELVIEW_MATRIX, lrArm->m);
-
-	// Brazo Izquierdo Superior
-	glLoadIdentity();
-	glTranslatef(TORSO_WIDTH+0.4, 0, 0.7);
-	glGetFloatv(GL_MODELVIEW_MATRIX, ulArm->m);
-
-	// Brazo Izquierdo Inferior
-	glLoadIdentity();
-	glTranslatef(0, 0, ARM_LENGTH);
-	glGetFloatv(GL_MODELVIEW_MATRIX, llArm->m);
-
-	// Pierna Derecha Superior
-	glLoadIdentity();
-	glTranslatef(-TORSO_WIDTH/2, 0, TORSO_LENGTH);
-	glGetFloatv(GL_MODELVIEW_MATRIX, urLeg->m);
-
-	// Pierna Derecha Inferior
-	glLoadIdentity();
-	glTranslatef(0, 0, LEG_LENGTH);
-	glGetFloatv(GL_MODELVIEW_MATRIX, lrLeg->m);
-
-	// Pierna Izquierda Superior
-	glLoadIdentity();
-	glTranslatef(TORSO_WIDTH/2, 0, TORSO_LENGTH);
-	glGetFloatv(GL_MODELVIEW_MATRIX, ulLeg->m);
-	
-	// Pierna Izquierda Inferior
-	glLoadIdentity();
-	glTranslatef(0, 0, LEG_LENGTH);
-	glGetFloatv(GL_MODELVIEW_MATRIX, llLeg->m);
-
-	//traverse(torso);
-}
-
 using namespace std;
 void lecturaDeArchivo()
 {
@@ -325,12 +246,13 @@ int main(int argc, char** argv)
 
 	// inicialización de los datos del programa
 	z = -10;
-	init();
+	initMaterials();
+	initTree();
 
 	// registro de los eventos
-	glutReshapeFunc ( reshapeevent ); //Manejo de Cambio de Ventana
+	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana
 	glutDisplayFunc( displayevent ); // Funcion de Dibujo
-	glutSpecialFunc( specialkeyevent ); //Manejo de Teclado
+	glutSpecialFunc( specialkeyevent ); // Manejo de Teclado
 
 	//Menu Mouse
 	glutCreateMenu(menuCallback);

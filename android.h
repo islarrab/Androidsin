@@ -1,5 +1,5 @@
-#ifndef ROBOT_H
-#define ROBOT_H
+#ifndef ANDROID_H
+#define ANDROID_H
 
 #include <limits.h>
 
@@ -92,6 +92,8 @@ public:
 
 		if (drawAxes) displayAxes();
 
+		glCallList(TORSO_MATERIAL);
+
 		gluCylinder(quad, TORSO_WIDTH, TORSO_WIDTH, TORSO_LENGTH, 100, 1);
 		gluDisk(quad, 0, TORSO_WIDTH, 50, 1);
 		glTranslatef(0, 0, TORSO_LENGTH);
@@ -110,6 +112,8 @@ public:
 
 		if (drawAxes) displayAxes();
 
+		glCallList(NECK_MATERIAL);
+
 		gluCylinder(quad, NECK_WIDTH, NECK_WIDTH, NECK_LENGTH, 100, 1);
 	}
 };	
@@ -124,6 +128,8 @@ class Head : public Node {
 		
 		if (drawAxes) displayAxes();
 
+		glCallList(HEAD_MATERIAL);
+
 		drawHalfSphere(HEAD_SIZE, stacks, slices);
 		gluDisk(quad, 0, HEAD_SIZE, 50, 1);
 
@@ -131,12 +137,14 @@ class Head : public Node {
 
 		// Ojo Derecho
 		glPushMatrix();
+			glCallList(EYE_MATERIAL);
 			glTranslatef(-HEAD_SIZE/3, -HEAD_SIZE/1.2, HEAD_SIZE/2.5);
 			gluSphere(quad, 0.3, 10, 10);
 		glPopMatrix();
 
 		// Ojo Izquierdo
 		glPushMatrix();
+			glCallList(EYE_MATERIAL);
 			glTranslatef(HEAD_SIZE/3, -HEAD_SIZE/1.2, HEAD_SIZE/2.5);
 			gluSphere(quad, 0.3, 10, 10);
 		glPopMatrix();
@@ -303,5 +311,85 @@ LowerRightLeg* lrLeg = new LowerRightLeg();
 UpperLeftLeg* ulLeg = new UpperLeftLeg();
 LowerLeftLeg* llLeg = new LowerLeftLeg();
 
+void initTree() {
+	// Se arma el arbol
+	// Torso	
+	torso->setChild(neck);
+	
+	// Cabeza
+	neck->setChild(head);
+	neck->setSibling(ulArm);
+
+	// Brazo Derecho
+	urArm->setSibling(ulLeg);
+	urArm->setChild(lrArm);
+
+	// Brazo Izquierdo
+	ulArm->setSibling(urArm);
+	ulArm->setChild(llArm);
+	
+	// Pierna Izquierda
+	ulLeg->setSibling(urLeg);
+	ulLeg->setChild(llLeg);
+
+	// Pierna Derecha
+	urLeg->setChild(lrLeg);
+
+	//utilizar las funciones de OpenGL para crear la matriz
+	
+	// Torso
+	glLoadIdentity();
+	glGetFloatv(GL_MODELVIEW_MATRIX, torso->m);
+
+	// Cuello
+	glLoadIdentity();
+	glRotatef(180, 1, 0, 0);
+	glGetFloatv(GL_MODELVIEW_MATRIX, neck->m);
+
+	// Cabeza
+	glLoadIdentity();
+	glTranslatef(0,0,NECK_LENGTH);
+	glGetFloatv(GL_MODELVIEW_MATRIX, head->m);
+
+	// Brazo Derecho Superior
+	glLoadIdentity();
+	glTranslatef(-(TORSO_WIDTH+0.4), 0, 0.7);
+	glGetFloatv(GL_MODELVIEW_MATRIX, urArm->m);
+
+	// Brazo Derecho Inferior
+	glLoadIdentity();
+	glTranslatef(0, 0, ARM_LENGTH);
+	glGetFloatv(GL_MODELVIEW_MATRIX, lrArm->m);
+
+	// Brazo Izquierdo Superior
+	glLoadIdentity();
+	glTranslatef(TORSO_WIDTH+0.4, 0, 0.7);
+	glGetFloatv(GL_MODELVIEW_MATRIX, ulArm->m);
+
+	// Brazo Izquierdo Inferior
+	glLoadIdentity();
+	glTranslatef(0, 0, ARM_LENGTH);
+	glGetFloatv(GL_MODELVIEW_MATRIX, llArm->m);
+
+	// Pierna Derecha Superior
+	glLoadIdentity();
+	glTranslatef(-TORSO_WIDTH/2, 0, TORSO_LENGTH);
+	glGetFloatv(GL_MODELVIEW_MATRIX, urLeg->m);
+
+	// Pierna Derecha Inferior
+	glLoadIdentity();
+	glTranslatef(0, 0, LEG_LENGTH);
+	glGetFloatv(GL_MODELVIEW_MATRIX, lrLeg->m);
+
+	// Pierna Izquierda Superior
+	glLoadIdentity();
+	glTranslatef(TORSO_WIDTH/2, 0, TORSO_LENGTH);
+	glGetFloatv(GL_MODELVIEW_MATRIX, ulLeg->m);
+	
+	// Pierna Izquierda Inferior
+	glLoadIdentity();
+	glTranslatef(0, 0, LEG_LENGTH);
+	glGetFloatv(GL_MODELVIEW_MATRIX, llLeg->m);
+}
 
 #endif
