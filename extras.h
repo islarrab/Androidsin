@@ -110,7 +110,7 @@ void drawSquarePrism(float x, float y, float z) {
 	glVertex3f( xr, yl, zf );
 	glVertex3f( xr, yu, zf );
 	glVertex3f( xl, yu, zf );
-	
+
 
 	// lateral derecha
 	coloring(GREEN);
@@ -146,21 +146,21 @@ void drawSquarePrism(float x, float y, float z) {
 	glVertex3f( xl, yl, zf );
 	glVertex3f( xl, yl, zb );
 	glVertex3f( xr, yl, zb );
-	
+
 	glEnd();
 }
 
 
 void drawHalfSphere(GLfloat r, GLint slices, GLint stacks){
-	const double Mm_PI = 3.14159265;
-	glBegin(GL_QUAD_STRIP);
+	const double PI = 3.14159265;
 	int i,j;
-	double arc = 2*Mm_PI/slices;
+	double arc = 2*PI/slices;
 	double z0 = 0;
 	double z1 = 0;
 	double disc_r0 = r;
 	double disc_r1 = r;
-	 for (i = 0; i<stacks; i++) {
+	glBegin(GL_QUAD_STRIP);
+	for (i = 0; i<stacks; i++) {
 		z0 = z1;
 		z1 = r/stacks*(i+1);
 		disc_r0 = disc_r1;
@@ -178,8 +178,8 @@ void drawHalfSphere(GLfloat r, GLint slices, GLint stacks){
 			glNormal3f(x1,y1,z1);
 			glVertex3f(x1,y1,z1);
 		}
-	 }
-	 glEnd();
+	}
+	glEnd();
 }
 
 void coloring(int color){

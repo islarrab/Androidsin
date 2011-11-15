@@ -21,7 +21,10 @@
 #define ULL   10 //UpperLeftLeg
 #define LLL   11 //LowerLeftLeg
 
-GLfloat z, angx, angy;
+GLfloat z, angx, angy,
+white_light[] = {1, 1, 1, 1},
+light_position[] = {-1.0, 0.0, 1.0, 0.0};
+
 const int NUM_PARTES = 11;
 
 int velocidad = 5;
@@ -96,15 +99,17 @@ void displayevent(void)
 
 	// verfica superficies visibles
 	glEnable( GL_DEPTH_TEST );
+	glEnable(GL_NORMALIZE);
 	
 	glMatrixMode(GL_MODELVIEW);
 
 	// Hagace la luz
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_LIGHT0);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
 	// y la luz se hizo
-
 
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
@@ -115,7 +120,7 @@ void displayevent(void)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glColor3f(0,1,0);
-
+	
 	traverse(torso);
 
 	glutPostRedisplay();
@@ -251,7 +256,7 @@ void init(){
 	glTranslatef(0, 0, LEG_LENGTH);
 	glGetFloatv(GL_MODELVIEW_MATRIX, llLeg->m);
 
-	traverse(torso);
+	//traverse(torso);
 }
 
 using namespace std;
