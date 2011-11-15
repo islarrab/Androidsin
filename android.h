@@ -133,8 +133,6 @@ class Head : public Node {
 		drawHalfSphere(HEAD_SIZE, stacks, slices);
 		gluDisk(quad, 0, HEAD_SIZE, 50, 1);
 
-		glColor3f(1,1,1);
-
 		// Ojo Derecho
 		glPushMatrix();
 			glCallList(EYE_MATERIAL);
@@ -149,8 +147,6 @@ class Head : public Node {
 			gluSphere(quad, 0.3, 10, 10);
 		glPopMatrix();
 		
-		glColor3f(0,1,0);
-
 		// Antena Derecha
 		glPushMatrix();
 			glRotatef(30, 0, 1, 0);

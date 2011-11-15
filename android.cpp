@@ -100,22 +100,8 @@ void displayevent(void)
 
 	// verfica superficies visibles
 	glEnable( GL_DEPTH_TEST );
-	glEnable(GL_NORMALIZE);
-
+	
 	glMatrixMode(GL_MODELVIEW);
-
-	// Hagace la luz
-	glEnable(GL_LIGHTING);
-	glEnable(GL_COLOR_MATERIAL);
-
-	glEnable(GL_LIGHT1);
-	glLightfv(GL_LIGHT1, GL_POSITION, left_light_position);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, white_light);
-
-	glEnable(GL_LIGHT2);
-	glLightfv(GL_LIGHT2, GL_POSITION, left_light_position);
-	glLightfv(GL_LIGHT2, GL_SPECULAR, white_light);
-	// y la luz se hizo
 
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
@@ -124,8 +110,6 @@ void displayevent(void)
 	glTranslatef( 0, 0, z );
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glColor3f(0,1,0);
 	
 	traverse(torso);
 
@@ -153,7 +137,7 @@ void specialkeyevent( int key, int Xx, int Yy )
 	case GLUT_KEY_F7: break;
 	case GLUT_KEY_F8: break;
 	case GLUT_KEY_F9: break;
-	case GLUT_KEY_F10: current_light = (current_light+1)%5; lightSelect(GL_LIGHT1, current_light); break; // Aun no sirve
+	case GLUT_KEY_F10: current_light = (current_light+1)%5; lightSelect(GL_LIGHT0, current_light); break; // Aun no sirve
 	case GLUT_KEY_F11: z += 0.1; break;
 	case GLUT_KEY_F12: z -= 0.1; break;
 	case GLUT_KEY_INSERT: drawAxes = (drawAxes==0) ? 1 : 0; break;
@@ -250,6 +234,22 @@ int main(int argc, char** argv)
 	z = -10;
 	initMaterials();
 	initTree();
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	glMatrixMode(GL_MODELVIEW);
+	glColorMaterial ( GL_FRONT, GL_AMBIENT_AND_DIFFUSE) ;
+
+	
+	glEnable(GL_LIGHT0);
+	glLightfv(GL_LIGHT0, GL_POSITION, left_light_position);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, no_light);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, white_light);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
+	
+
 
 	// registro de los eventos
 	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana

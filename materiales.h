@@ -16,10 +16,11 @@ GLfloat
 	green_light[] = {0, 1, 0, 1},
 	blue_light[] = {0, 0, 1, 1},
 	white_light[] = {1, 1, 1, 1}, 
+	no_light[] = {0, 0, 0, 1},
 	left_light_position[] = {-1.0, 0.0, 1.0, 0.0}, 
 	right_light_position[] = {10, 0.0, -5, 0.0},
 	green_plastic_ambient[] = {0, 0, 0, 1}, 
-	green_plastic_diffuse[] = {0.1, 0.35, 0.1, 1.0}, 
+	green_plastic_diffuse[] = {0.9, 0.35, 0.1, 1.0}, 
 	green_plastic_specular[] = {0.45, 0.55, 0.45},
 	green_plastic_shininess = 0.25,
 	white_plastic_ambient[] = {0, 0, 0, 1}, 
@@ -31,6 +32,14 @@ void initMaterials();
 void material(int, GLfloat*, GLfloat*, GLfloat*, GLfloat);
 void materialSelect(int, int);
 void lightSelect(GLenum, int);
+
+void initMaterials() {
+	// Se define los materiales
+	materialSelect(TORSO_MATERIAL, GREEN_PLASTIC);
+	materialSelect(NECK_MATERIAL, GREEN_PLASTIC);
+	materialSelect(HEAD_MATERIAL, GREEN_PLASTIC);
+	materialSelect(EYE_MATERIAL, WHITE_PLASTIC);
+}
 
 void material(int dlist, GLfloat * ambient, GLfloat * diffuse, 
 	GLfloat * specular, GLfloat shininess) {
@@ -50,16 +59,9 @@ void materialSelect(int object, int value) {
 	}
 }
 
-void initMaterials() {
-	// Se define los materiales
-	materialSelect(TORSO_MATERIAL, GREEN_PLASTIC);
-	materialSelect(NECK_MATERIAL, GREEN_PLASTIC);
-	materialSelect(HEAD_MATERIAL, GREEN_PLASTIC);
-	materialSelect(EYE_MATERIAL, WHITE_PLASTIC);
-}
-
 void lightSelect(GLenum which, int value) {
 	glEnable(which);
+	printf("lol\n");
 	switch (value) {
 	case LIGHT_OFF:
 		glDisable(which);
