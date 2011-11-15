@@ -20,7 +20,7 @@ GLfloat
 	left_light_position[] = {-1.0, 0.0, 1.0, 0.0}, 
 	right_light_position[] = {10, 0.0, -5, 0.0},
 	green_plastic_ambient[] = {0, 0, 0, 1}, 
-	green_plastic_diffuse[] = {0.9, 0.35, 0.1, 1.0}, 
+	green_plastic_diffuse[] = {0.1, 0.35, 0.1, 1.0}, 
 	green_plastic_specular[] = {0.45, 0.55, 0.45},
 	green_plastic_shininess = 0.25,
 	white_plastic_ambient[] = {0, 0, 0, 1}, 
@@ -61,7 +61,6 @@ void materialSelect(int object, int value) {
 
 void lightSelect(GLenum which, int value) {
 	glEnable(which);
-	printf("lol\n");
 	switch (value) {
 	case LIGHT_OFF:
 		glDisable(which);
