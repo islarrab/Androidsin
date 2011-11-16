@@ -133,20 +133,22 @@ class Head : public Node {
 		drawHalfSphere(HEAD_SIZE, stacks, slices);
 		gluDisk(quad, 0, HEAD_SIZE, 50, 1);
 
+		glCallList(EYE_MATERIAL);
+
 		// Ojo Derecho
 		glPushMatrix();
-			glCallList(EYE_MATERIAL);
 			glTranslatef(-HEAD_SIZE/3, -HEAD_SIZE/1.2, HEAD_SIZE/2.5);
 			gluSphere(quad, 0.3, 10, 10);
 		glPopMatrix();
 
 		// Ojo Izquierdo
 		glPushMatrix();
-			glCallList(EYE_MATERIAL);
 			glTranslatef(HEAD_SIZE/3, -HEAD_SIZE/1.2, HEAD_SIZE/2.5);
 			gluSphere(quad, 0.3, 10, 10);
 		glPopMatrix();
 		
+		glCallList(HEAD_MATERIAL);
+
 		// Antena Derecha
 		glPushMatrix();
 			glRotatef(30, 0, 1, 0);
@@ -163,7 +165,6 @@ class Head : public Node {
 			gluSphere(quad, ANTENA_RADIOUS, 10, 10);
 		glPopMatrix();
 
-
 	}
 };
 
@@ -176,6 +177,8 @@ class UpperRightArm : public Node {
 		glRotatef(theta[14],0,0,1);
 		
 		if (drawAxes) displayAxes();
+
+		glCallList(ARM_MATERIAL);
 
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
@@ -191,6 +194,8 @@ class LowerRightArm : public Node {
 		glRotatef(theta[17],0,0,1);
 		
 		if (drawAxes) displayAxes();
+
+		glCallList(ARM_MATERIAL);
 
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
@@ -209,6 +214,8 @@ class UpperLeftArm : public Node {
 		
 		if (drawAxes) displayAxes();
 
+		glCallList(ARM_MATERIAL);
+
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
 	}
@@ -223,6 +230,8 @@ class LowerLeftArm : public Node {
 		glRotatef(theta[23],0,0,1);
 		
 		if (drawAxes) displayAxes();
+
+		glCallList(ARM_MATERIAL);
 
 		gluSphere(quad, ARM_WIDTH, 50, 50);
 		gluCylinder(quad, ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, 50, 1);
@@ -241,6 +250,8 @@ class UpperRightLeg : public Node {
 		
 		if (drawAxes) displayAxes();
 
+		glCallList(LEG_MATERIAL);
+
 		gluSphere(quad, LEG_WIDTH, 50, 50);
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
 	}
@@ -255,6 +266,8 @@ class LowerRightLeg : public Node {
 		glRotatef(theta[29],0,0,1);
 		
 		if (drawAxes) displayAxes();
+
+		glCallList(LEG_MATERIAL);
 
 		gluSphere(quad, LEG_WIDTH, 50, 50);
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
@@ -273,6 +286,8 @@ class UpperLeftLeg : public Node {
 		
 		if (drawAxes) displayAxes();
 
+		glCallList(LEG_MATERIAL);
+
 		gluSphere(quad, LEG_WIDTH, 50, 50);
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
 	}
@@ -287,6 +302,8 @@ class LowerLeftLeg : public Node {
 		glRotatef(theta[35],0,0,1);
 		
 		if (drawAxes) displayAxes();
+
+		glCallList(LEG_MATERIAL);
 
 		gluSphere(quad, LEG_WIDTH, 50, 50);
 		gluCylinder(quad, LEG_WIDTH, LEG_WIDTH, LEG_LENGTH, 50, 1);
