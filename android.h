@@ -3,7 +3,7 @@
 
 #include <limits.h>
 
-int stacks=10, slices=10;
+int stacks=50, slices=50;
 
 int theta[36] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; 
 
