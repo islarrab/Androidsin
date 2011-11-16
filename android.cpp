@@ -7,8 +7,10 @@
 #include <GL/glu.h>
 
 #include "materials.h"
+#include "lights.h"
 #include "extras.h"
 #include "android.h"
+#include "keyboard.h"
 
 #define TORSO 1 //Torso
 #define HEAD  2 //Cabeza
@@ -22,15 +24,9 @@
 #define ULL   10 //UpperLeftLeg
 #define LLL   11 //LowerLeftLeg
 
-GLfloat z, angx, angy;
+GLfloat angx, angy;
 
 const int NUM_PARTES = 11;
-
-int current_light = LIGHT_WHITE;
-
-int velocidad = 5;
-
-int menu = TORSO;
 
 void menuCallback (int id) {
 	switch(id){
@@ -107,44 +103,18 @@ void displayevent(void)
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
 
+	
+
 	// zoom
-	glTranslatef( 0, 0, z );
+	glTranslatef(-camera_position[0], -camera_position[1], -camera_position[2]);
+
+	if (display_light_source) drawLightSource();
 
 	traverse(torso);
 
 	glutPostRedisplay();
 	// muestra la escena
 	glutSwapBuffers();
-}
-
-void specialkeyevent( int key, int Xx, int Yy )
-{
-	// manejo de teclas especiales
-	int i = menu * 3;
-	int x = 0;
-	switch ( key ) {
-	case GLUT_KEY_LEFT:	x = theta[i+1] - velocidad; theta[i+1] = (x < limits[i+1][0])? limits[i+1][0] : x; break;
-	case GLUT_KEY_RIGHT: x = theta[i+1] + velocidad; theta[i+1] = (x > limits[i+1][1])? limits[i+1][1] : x; break;
-	case GLUT_KEY_UP: x = theta[i] - velocidad; theta[i] = (x < limits[i][0])? limits[i][0] : x; break;
-	case GLUT_KEY_DOWN: x = theta[i] + velocidad; theta[i] = (x > limits[i][1])? limits[i][1] : x; break;
-	case GLUT_KEY_F1: x = theta[i+2] - velocidad; theta[i+2] = (x < limits[i+2][0])? limits[i+2][0] : x; break;
-	case GLUT_KEY_F2: x = theta[i+2] + velocidad; theta[i+2] = (x > limits[i+2][1])? limits[i+2][1] : x; break;
-	case GLUT_KEY_F3: stacks+=1; break;
-	case GLUT_KEY_F4: stacks-=1; break;
-	case GLUT_KEY_F5: slices+=1; break;
-	case GLUT_KEY_F6: slices-=1; break;
-	case GLUT_KEY_F7: break;
-	case GLUT_KEY_F8: materialSelect(TORSO_MATERIAL, WHITE_PLASTIC); break;
-	case GLUT_KEY_F9: materialSelect(TORSO_MATERIAL, GREEN_PLASTIC); break;
-	case GLUT_KEY_F10: current_light = (current_light+1)%5; lightSelect(GL_LIGHT0, current_light); break;
-	case GLUT_KEY_F11: z += 0.1; break;
-	case GLUT_KEY_F12: z -= 0.1; break;
-	case GLUT_KEY_INSERT: drawAxes = (drawAxes==0) ? 1 : 0; break;
-	case GLUT_KEY_HOME: break;
-	case GLUT_KEY_PAGE_UP: break;
-	}
-	// redibuja la escena
-	glutPostRedisplay();
 }
 
 void reshapeevent(GLsizei width, GLsizei LENGTH)
@@ -232,25 +202,18 @@ int main(int argc, char** argv)
 	// inicialización de los datos del programa
 	z = -10;
 	initMaterials();
+	initLights();
 	initTree();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
-	glEnable(GL_LIGHTING);
-	//glEnable(GL_COLOR_MATERIAL);
 	glMatrixMode(GL_MODELVIEW);
-	//glColorMaterial ( GL_FRONT, GL_AMBIENT_AND_DIFFUSE) ;
-
-	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_POSITION, left_light_position);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, no_light);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, white_light);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
 	
 	// registro de los eventos
 	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana
 	glutDisplayFunc( displayevent ); // Funcion de Dibujo
 	glutSpecialFunc( specialkeyevent ); // Manejo de Teclado
+	glutKeyboardFunc( keyboard );
 
 	//Menu Mouse
 	glutCreateMenu(menuCallback);

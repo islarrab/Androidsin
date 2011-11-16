@@ -8,18 +8,9 @@ enum {
 	TORSO_MATERIAL, NECK_MATERIAL, HEAD_MATERIAL, EYE_MATERIAL,
 	ARM_MATERIAL, LEG_MATERIAL
 } MaterialDisplayList;
-enum {
-	LIGHT_OFF, LIGHT_WHITE, LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE
-} LightValues;
+
 
 GLfloat 
-	red_light[] = {1, 0, 0, 1}, 
-	green_light[] = {0, 1, 0, 1},
-	blue_light[] = {0, 0, 1, 1},
-	white_light[] = {1, 1, 1, 1}, 
-	no_light[] = {0, 0, 0, 1},
-	left_light_position[] = {-1.0, 0.0, 1.0, 0.0}, 
-	right_light_position[] = {1, 0.0, 1, 0.0},
 	green_plastic_ambient[] = {0, 0, 0, 1}, 
 	green_plastic_diffuse[] = {0.1, 0.35, 0.1, 1.0}, 
 	green_plastic_specular[] = {0.45, 0.55, 0.45},
@@ -66,28 +57,6 @@ void materialSelect(int object, int value) {
 		material(object, white_plastic_ambient, white_plastic_diffuse, white_plastic_specular, white_plastic_shininess);
 		break;
 	}
-}
-
-void lightSelect(GLenum which, int value) {
-	glEnable(which);
-	switch (value) {
-	case LIGHT_OFF:
-		glDisable(which);
-		break;
-	case LIGHT_RED:
-		glLightfv(which, GL_DIFFUSE, red_light);
-		break;
-	case LIGHT_WHITE:
-		glLightfv(which, GL_DIFFUSE, white_light);
-		break;
-	case LIGHT_GREEN:
-		glLightfv(which, GL_DIFFUSE, green_light);
-		break;
-	case LIGHT_BLUE:
-		glLightfv(which, GL_DIFFUSE, blue_light);
-		break;
-	}
-	glutPostRedisplay();
 }
 
 #endif
