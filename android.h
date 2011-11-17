@@ -79,7 +79,7 @@ float NECK_LENGTH = 0;
 float NECK_WIDTH = 0;
 float HEAD_SIZE = 0;
 float ANTENA_LENGTH = 10;
-float ANTENA_RADIOUS = 0;
+float ANTENA_RADIUS = 0;
 
 class Torso : public Node {
 public:
@@ -152,17 +152,17 @@ class Head : public Node {
 		// Antena Derecha
 		glPushMatrix();
 			glRotatef(30, 0, 1, 0);
-			gluCylinder(quad, ANTENA_RADIOUS, ANTENA_RADIOUS, ANTENA_LENGTH, 50, 10);
+			gluCylinder(quad, ANTENA_RADIUS, ANTENA_RADIUS, ANTENA_LENGTH, 50, 10);
 			glTranslatef(0, 0, ANTENA_LENGTH);
-			gluSphere(quad, ANTENA_RADIOUS, 10, 10);
+			gluSphere(quad, ANTENA_RADIUS, 10, 10);
 		glPopMatrix();
 
 		// Antena Izquierda
 		glPushMatrix();
 			glRotatef(-30, 0, 1, 0);
-			gluCylinder(quad, ANTENA_RADIOUS, ANTENA_RADIOUS, ANTENA_LENGTH, 50, 10);
+			gluCylinder(quad, ANTENA_RADIUS, ANTENA_RADIUS, ANTENA_LENGTH, 50, 10);
 			glTranslatef(0, 0, ANTENA_LENGTH);
-			gluSphere(quad, ANTENA_RADIOUS, 10, 10);
+			gluSphere(quad, ANTENA_RADIUS, 10, 10);
 		glPopMatrix();
 
 	}

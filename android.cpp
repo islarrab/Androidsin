@@ -5,16 +5,14 @@
 #include <string>
 #include <GL/glut.h>
 #include <GL/glu.h>
-#include <GL/gl.h> //nueva
+#include <GL/gl.h>
 
 #include "materials.h"
 #include "lights.h"
 #include "extras.h"
 #include "android.h"
 #include "keyboard.h"
-
-#include "Render.h" //nueva
-
+#include "Render.h"
 #include "mouse.h"
 
 
@@ -112,7 +110,7 @@ void displayevent(void) {
 	glEnable( GL_DEPTH_TEST );
 
 	//Habilita el manejo de texturas
-    	glEnable(GL_TEXTURE_2D);
+    	//glEnable(GL_TEXTURE_2D);
 
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
@@ -120,23 +118,18 @@ void displayevent(void) {
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
 
-	/* TEXTURAS */
-	// traslada la escena al centro del espacio
-	glTranslatef( -2, 0, -8 ); //-16.5
-	drawCube(20);
-
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
-	// movimiento de camara
 
+	// movimiento de camara
 	glTranslatef(-camera_position[0], -camera_position[1], -camera_position[2]);
-	// zoom
-	
-	
-	
+
+		/* TEXTURAS */
+	// traslada la escena al centro del espacio
+	//glTranslatef( -2, 0, -8 ); //-16.5
+	//drawCube(20);
 
 	if (display_light_source) drawLightSource();
-
 
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
 	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
@@ -190,7 +183,7 @@ void lecturaDeArchivo()
 			case 7: NECK_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
 			case 8: HEAD_SIZE = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
 			case 9: ANTENA_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-			case 10: ANTENA_RADIOUS = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 10: ANTENA_RADIUS = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
 			}
 			//medidas[pos] = atof( (linea.substr( linea.find(":") + 1 )).c_str() );
 			pos++;           
