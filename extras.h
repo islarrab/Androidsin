@@ -2,7 +2,7 @@
 #define EXTRAS_H
 
 #include <math.h>
-
+GLuint texture[2]; //Arreglo de texturas
 const int BLACK = 0;
 const int WHITE = 1;
 const int BLUE = 2;
@@ -46,51 +46,62 @@ void drawCube(float size) {
 	float a = size/2;
 	float b = a*-1;
 	coloring(BLUE);
+	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // frontal
-	glVertex3f( b, b, a );
-	glVertex3f( a, b, a );
-	glVertex3f( a, a, a );
-	glVertex3f( b, a, a );
+	glNormal3d(0,0,1);
+	glTexCoord2f(1.0f,1.0f); glVertex3f( b, b, a );
+	glTexCoord2f(1.0f,0.0f); glVertex3f( a, b, a );
+	glTexCoord2f(0.0f,0.0f); glVertex3f( a, a, a );
+	glTexCoord2f(0.0f,1.0f); glVertex3f( b, a, a );
 	glEnd();
 
 	coloring(GREEN);
+	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // lateral derecha
-	glVertex3f( a, b, a );
-	glVertex3f( a, b, b );
-	glVertex3f( a, a, b );
-	glVertex3f( a, a, a );
+	glTexCoord2f(1.0f,1.0f); glVertex3f( a, b, a );
+	glTexCoord2f(1.0f,0.0f); glVertex3f( a, b, b );
+	glTexCoord2f(0.0f,0.0f); glVertex3f( a, a, b );
+	glTexCoord2f(0.0f,1.0f); glVertex3f( a, a, a );
 	glEnd();
 
 	coloring(RED);
+	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // superior
-	glVertex3f( b, a, a );
-	glVertex3f( a, a, a );
-	glVertex3f( a, a, b );
-	glVertex3f( b, a, b );
+	glNormal3d(0,0,1);
+	glTexCoord2f(1.0f,1.0f); glVertex3f( b, a, a );
+	glTexCoord2f(1.0f,0.0f); glVertex3f( a, a, a );
+	glTexCoord2f(0.0f,0.0f); glVertex3f( a, a, b );
+	glTexCoord2f(0.0f,1.0f); glVertex3f( b, a, b );
 	glEnd();
 
 	coloring(PURPLE);
+	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // trasera
-	glVertex3f( b, b, b );
-	glVertex3f( a, b, b );
-	glVertex3f( a, a, b);
-	glVertex3f( b, a, b );
+	glNormal3d(0,0,1);
+	glTexCoord2f(1.0f,1.0f); glVertex3f( b, b, b );
+	glTexCoord2f(1.0f,0.0f); glVertex3f( a, b, b );
+	glTexCoord2f(0.0f,0.0f); glVertex3f( a, a, b);
+	glTexCoord2f(0.0f,1.0f); glVertex3f( b, a, b );
 	glEnd();
 
 	coloring(CYAN);
+	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // lateral izquiera
-	glVertex3f( b, b, a );
-	glVertex3f( b, b, b );
-	glVertex3f( b, a, b );
-	glVertex3f( b, a, a );
+	glNormal3d(0,0,1);
+	glTexCoord2f(1.0f,1.0f); glVertex3f( b, b, a );
+	glTexCoord2f(1.0f,0.0f); glVertex3f( b, b, b );
+	glTexCoord2f(0.0f,0.0f); glVertex3f( b, a, b );
+	glTexCoord2f(0.0f,1.0f); glVertex3f( b, a, a );
 	glEnd();
 
 	coloring(YELLOW);
+	glBindTexture(GL_TEXTURE_2D,texture[1]);
 	glBegin( GL_QUADS ); // inferior
-	glVertex3f( a, b, a );
-	glVertex3f( b, b, a );
-	glVertex3f( b, b, b );
-	glVertex3f( a, b, b );
+	glNormal3d(0,0,1);
+	glTexCoord2f(1.0f,1.0f); glVertex3f( a, b, a );
+	glTexCoord2f(1.0f,0.0f); glVertex3f( b, b, a );
+	glTexCoord2f(0.0f,0.0f); glVertex3f( b, b, b );
+	glTexCoord2f(0.0f,1.0f); glVertex3f( a, b, b );
 	glEnd();
 }
 

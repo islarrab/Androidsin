@@ -5,12 +5,14 @@
 #include <string>
 #include <GL/glut.h>
 #include <GL/glu.h>
+#include <GL/gl.h> //nueva
 
 #include "materials.h"
 #include "lights.h"
 #include "extras.h"
 #include "android.h"
 #include "keyboard.h"
+#include "Render.h" //nueva
 
 #define TORSO 1 //Torso
 #define HEAD  2 //Cabeza
@@ -26,7 +28,16 @@
 
 GLfloat angx, angy;
 
+bool interruptor = true; //Para interruptor
+
 const int NUM_PARTES = 11;
+
+//Metodo para cargar imagenes de texturas.
+void cargaImagenes(){
+     //Lectura y Carga de Imagenes en el Arreglo
+     texture[0] = LoadTexture("Data/ladrillos.tga");
+     texture[1] = LoadTexture("Data/marmol.tga");
+}
 
 void menuCallback (int id) {
 	switch(id){
@@ -96,6 +107,8 @@ void displayevent(void)
 
 	// verfica superficies visibles
 	glEnable( GL_DEPTH_TEST );
+	//Habilita el manejo de texturas
+    	glEnable(GL_TEXTURE_2D);
 	
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
@@ -103,13 +116,21 @@ void displayevent(void)
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
 
+	/* TEXTURAS */
+	// traslada la escena al centro del espacio
+	glTranslatef( -2, 0, -8 ); //-16.5
+	drawCube(20);
+
+	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
+	glLoadIdentity();
+	glTranslatef(-camera_position[0], -camera_position[1], -camera_position[2]);
+	// zoom
+	
+	
 	
 
-	// zoom
-	glTranslatef(-camera_position[0], -camera_position[1], -camera_position[2]);
-
 	if (display_light_source) drawLightSource();
-
+	
 	traverse(torso);
 
 	glutPostRedisplay();
@@ -187,23 +208,27 @@ int main(int argc, char** argv)
 	//Lectura de Archivo
 	lecturaDeArchivo();
 	//Ciclo infinito
+	//if(interruptor)
+		// inicialización del GLUT
+		glutInit( &argc, argv );
 
-	// inicialización del GLUT
-	glutInit( &argc, argv );
+		// inicialiación de la ventana
+		glutInitWindowSize( 600, 600 );
+		glutInitWindowPosition( 100, 100 );
+		glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
+		glutCreateWindow("");
 
-	// inicialiación de la ventana
-	glutInitWindowSize( 600, 600 );
-	glutInitWindowPosition( 100, 100 );
-	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
-	glutCreateWindow("");
+		glutSetWindowTitle("Android");
 
-	glutSetWindowTitle("Android");
-
-	// inicialización de los datos del programa
-	z = -10;
+		// inicialización de los datos del programa
+		z = -10;
+		cargaImagenes();
+		//interruptor = false;
+	//}
 	initMaterials();
 	initLights();
 	initTree();
+	
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
