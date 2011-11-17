@@ -42,12 +42,19 @@ void keyboard( unsigned char key, int x, int y ) {
 	case 'a': // camara, mov izquierda
 		camera_position[0] -= camera_velocity;
 		break;
-	case 'w': // camara, mov hacia fondo
-		camera_position[2] -= camera_velocity;
+	case 'w': // camara, mov arriba
+		camera_position[1] += camera_velocity;
 		break;
-	case 's': // camara, mov hacia pantalla
+	case 's': // camara, mov abajo
+		camera_position[1] -= camera_velocity;
+		break;
+	case 'q': // camara, mov pantalla
 		camera_position[2] += camera_velocity;
 		break;
+	case 'e': // camara, mov fondo
+		camera_position[2] -= camera_velocity;
+		break;
+
 
 	case 27:
 		exit(0);

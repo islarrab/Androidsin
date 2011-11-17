@@ -12,7 +12,11 @@
 #include "extras.h"
 #include "android.h"
 #include "keyboard.h"
+
 #include "Render.h" //nueva
+
+#include "mouse.h"
+
 
 #define TORSO 1 //Torso
 #define HEAD  2 //Cabeza
@@ -41,39 +45,39 @@ void cargaImagenes(){
 
 void menuCallback (int id) {
 	switch(id){
-		case TORSO:
-			menu = TORSO;
-			break;
-		case HEAD:
-			menu = HEAD;
-			break;
-		case NECK:
-			menu = NECK;
-			break;
-		case URA:
-			menu = URA;
-			break;
-		case LRA:
-			menu = LRA;
-			break;
-		case ULA:
-			menu = ULA;
-			break;
-		case LLA:
-			menu = LLA;
-			break;
-		case URL:
-			menu = URL;
-			break;
-		case LRL:
-			menu = LRL;
-			break;
-		case ULL:
-			menu = ULL;
-			break;
-		case LLL:
-			menu = LLL;
-			break;
+	case TORSO:
+		menu = TORSO;
+		break;
+	case HEAD:
+		menu = HEAD;
+		break;
+	case NECK:
+		menu = NECK;
+		break;
+	case URA:
+		menu = URA;
+		break;
+	case LRA:
+		menu = LRA;
+		break;
+	case ULA:
+		menu = ULA;
+		break;
+	case LLA:
+		menu = LLA;
+		break;
+	case URL:
+		menu = URL;
+		break;
+	case LRL:
+		menu = LRL;
+		break;
+	case ULL:
+		menu = ULL;
+		break;
+	case LLL:
+		menu = LLL;
+		break;
 	}
 
 	glutPostRedisplay();
@@ -87,7 +91,7 @@ void traverse (Node *node)
 
 	//transformar relativo a su padre
 	glMultMatrixf(node->m);
-	
+
 	//dibujar el nodo
 	node->draw();
 	// primer recorrer los hijos (si hay)
@@ -98,18 +102,18 @@ void traverse (Node *node)
 	if(node->getSibling() != NULL)
 		traverse(node->getSibling());
 }
-   
-void displayevent(void)
-{
-	
+
+void displayevent(void) {
+
 	// limpia la escena (ventana)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// verfica superficies visibles
 	glEnable( GL_DEPTH_TEST );
+
 	//Habilita el manejo de texturas
     	glEnable(GL_TEXTURE_2D);
-	
+
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
 
@@ -123,6 +127,8 @@ void displayevent(void)
 
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
+	// movimiento de camara
+
 	glTranslatef(-camera_position[0], -camera_position[1], -camera_position[2]);
 	// zoom
 	
@@ -130,7 +136,12 @@ void displayevent(void)
 	
 
 	if (display_light_source) drawLightSource();
-	
+
+
+	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
+	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
+
+
 	traverse(torso);
 
 	glutPostRedisplay();
@@ -138,8 +149,7 @@ void displayevent(void)
 	glutSwapBuffers();
 }
 
-void reshapeevent(GLsizei width, GLsizei LENGTH)
-{
+void reshapeevent(GLsizei width, GLsizei LENGTH) {
 	// establecer el área de visualizacion en la ventana
 	glViewport(0,0,width,LENGTH);
 
@@ -168,28 +178,28 @@ void lecturaDeArchivo()
 		int pos = 0;
 		while((! archivo.eof()) && pos <= NUM_PARTES) // Mientras no sea fin de archivo
 		{
-	    	getline(archivo, linea);
+			getline(archivo, linea);
 			switch(pos){
-				case 0: TORSO_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 1: TORSO_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 2: ARM_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 3: ARM_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 4: LEG_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 5: LEG_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 6: NECK_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 7: NECK_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 8: HEAD_SIZE = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 9: ANTENA_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
-				case 10: ANTENA_RADIOUS = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 0: TORSO_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 1: TORSO_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 2: ARM_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 3: ARM_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 4: LEG_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 5: LEG_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 6: NECK_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 7: NECK_WIDTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 8: HEAD_SIZE = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 9: ANTENA_LENGTH = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
+			case 10: ANTENA_RADIOUS = atof( (linea.substr( linea.find(":") + 1 )).c_str() ); break;
 			}
 			//medidas[pos] = atof( (linea.substr( linea.find(":") + 1 )).c_str() );
 			pos++;           
 		}
 		archivo.close(); // Cerrar el archivo despues de obtener las medidas
-    	} else {
-        	cout << "ERROR: No se pudo abrir archivo." << endl;
-			exit(1);
-    	}
+	} else {
+		cout << "ERROR: No se pudo abrir archivo." << endl;
+		exit(1);
+	}
 
 	cout << TORSO_LENGTH << endl;
 	cout << TORSO_WIDTH << endl;
@@ -203,8 +213,7 @@ void lecturaDeArchivo()
 
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	//Lectura de Archivo
 	lecturaDeArchivo();
 	//Ciclo infinito
@@ -233,12 +242,15 @@ int main(int argc, char** argv)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 	glMatrixMode(GL_MODELVIEW);
-	
+
 	// registro de los eventos
 	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana
 	glutDisplayFunc( displayevent ); // Funcion de Dibujo
 	glutSpecialFunc( specialkeyevent ); // Manejo de Teclado
 	glutKeyboardFunc( keyboard );
+	glutMouseFunc(mouse);
+	glutMotionFunc(mouseMotion);
+
 
 	//Menu Mouse
 	glutCreateMenu(menuCallback);
