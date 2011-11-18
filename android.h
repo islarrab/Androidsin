@@ -81,6 +81,8 @@ float HEAD_SIZE = 0;
 float ANTENA_LENGTH = 10;
 float ANTENA_RADIUS = 0;
 
+#include "shapes.h"
+
 class Torso : public Node {
 public:
 	void draw() const {

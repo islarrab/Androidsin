@@ -134,6 +134,7 @@ void displayevent(void) {
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
 	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
 
+	drawSphere(4, 270, 50, 50);
 
 	traverse(torso);
 
