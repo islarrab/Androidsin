@@ -3,6 +3,8 @@
 
 #include <math.h>
 
+const double PI = 3.14159265;
+
 void drawCube(float);
 void drawSquarePrism(float,float,float);
 void drawHalfSphere(GLfloat, GLint, GLint);
@@ -128,7 +130,6 @@ void drawSquarePrism(float x, float y, float z) {
 }
 
 void drawHalfSphere(GLfloat r, GLint slices, GLint stacks){
-	const double PI = 3.14159265;
 	int i,j;
 	double arc = 2*PI/slices;
 	double z0 = 0;
@@ -159,7 +160,6 @@ void drawHalfSphere(GLfloat r, GLint slices, GLint stacks){
 }
 
 void drawSphere(GLfloat r, GLfloat ang, GLint slices, GLint stacks){
-	const double PI = 3.14159265;
 	int i, j;
 	double arc_xy = (ang*PI/180.0)/slices;
 	double arc_z = PI/stacks;
@@ -167,7 +167,7 @@ void drawSphere(GLfloat r, GLfloat ang, GLint slices, GLint stacks){
 	double z1 = r;
 	double disc_r0 = 0;
 	double disc_r1 = 0;
-	
+
 	for (i=0; i<stacks; i++) {
 		double angle1 = arc_z * (i+1);
 		z0 = z1;
@@ -188,6 +188,84 @@ void drawSphere(GLfloat r, GLfloat ang, GLint slices, GLint stacks){
 		}
 		glEnd();
 	}
+
+}
+
+void drawCylinder(GLfloat rx, GLfloat ry, GLfloat z, GLint slices, GLint stacks) {
+	GLfloat stack_height = z/stacks;
+	GLfloat slice_angle = 2*PI/slices;
+	int i,j;
+	for (i=0; i<stacks; i++) {
+		glBegin(GL_QUAD_STRIP);
+		for (j=0; j<=slices; j++) {
+			GLfloat ang = slice_angle*j;
+			GLfloat x = cos(ang)*rx;
+			GLfloat y = sin(ang)*ry;
+			glNormal3f(x, y, 0);
+			glVertex3f(x, y, 0);
+			glVertex3f(x, y, stack_height*(i+1));
+		}
+		glEnd();
+	}
+}
+
+void drawEllipse(GLfloat rx, GLfloat ry, GLint slices) {
+	GLfloat slice_angle = 2*PI/slices;
+	int i;
+	glBegin(GL_TRIANGLE_FAN);
+	glNormal3f(0, 0, 1);
+	glVertex3f(0, 0, 0);
+	for (i=0; i<=slices; i++) {
+		GLfloat ang = slice_angle*i;
+		GLfloat x = cos(ang)*rx;
+		GLfloat y = sin(ang)*ry;
+
+		glVertex3f(x, y, 0);
+	}
+	glEnd();
+}
+
+void drawSword(GLfloat length) {
+	GLfloat 
+		GRIP_WIDTH = 0.2,
+		GRIP_LENGTH = 1,
+		POMMEL_SIZE = 0.4,
+		GUARD_RX = 0.8,
+		GUARD_RY = 1.4,
+		BLADE_RX = 0.2,
+		BLADE_RY = 0.8;
+	
+	glPushMatrix();
+	  drawCylinder(GRIP_WIDTH,GRIP_WIDTH,GRIP_LENGTH,5,1);
+	  glPushMatrix();
+	    glTranslatef(0,0,-POMMEL_SIZE/2);
+	    drawSphere(POMMEL_SIZE, 360, 5, 5);
+	  glPopMatrix();
+	  glTranslatef(0,0,1);
+	  drawCylinder(GUARD_RX, GUARD_RY, 0.1, 10, 1);
+	  glPushMatrix();
+		glRotatef(180,1,0,0);
+		drawEllipse(GUARD_RX, GUARD_RY, 10);
+	  glPopMatrix();
+	  glTranslatef(0, 0, 0.1);
+	  drawEllipse(GUARD_RX, GUARD_RY, 10);
+	  drawCylinder(BLADE_RX, BLADE_RY, length, 4, 1);
+	  glTranslatef(0, 0, length);
+	  
+	  glBegin(GL_TRIANGLE_FAN);
+	  glNormal3f(0, 0, 1);
+	  glVertex3f(0, 0, 1);
+	  glNormal3f(0, BLADE_RY, 0);
+	  glVertex3f(0, BLADE_RY, 0);
+	  glNormal3f(BLADE_RX, 0, 0);
+	  glVertex3f(BLADE_RX, 0, 0);
+	  glNormal3f(0, -BLADE_RY, 0);
+	  glVertex3f(0, -BLADE_RY, 0);
+	  glNormal3f(-BLADE_RX, 0, 0);
+	  glVertex3f(-BLADE_RX, 0, 0);
+	  glNormal3f(0, BLADE_RY, 0);
+	  glVertex3f(0, BLADE_RY, 0);
+	  glEnd();
 	
 }
 

@@ -15,6 +15,7 @@ GLfloat
 	blue_light[] = {0, 0, 1, 1},
 	white_light[] = {1, 1, 1, 1}, 
 	no_light[] = {0, 0, 0, 1},
+	dim_light[] = {0.2, 0.2, 0.2, 1},
 	light0_position[] = {-1, 0, 1, 0};
 
 void initLights();
