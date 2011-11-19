@@ -266,7 +266,7 @@ void drawSword(GLfloat length) {
 	  glNormal3f(0, BLADE_RY, 0);
 	  glVertex3f(0, BLADE_RY, 0);
 	  glEnd();
-	
+	glPopMatrix();
 }
 
 #endif
