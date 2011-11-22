@@ -434,4 +434,13 @@ void initTree() {
 	glGetFloatv(GL_MODELVIEW_MATRIX, sword->m);
 }
 
+void displayThetas() {
+	int i;
+	printf("theta = {%d", theta[0]);
+	for (i=1; i<39; i++){
+		printf(", %d", theta[i]);
+	}
+	printf("}\n");
+}
+
 #endif

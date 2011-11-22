@@ -86,7 +86,7 @@ void specialkeyevent( int key, int Xx, int Yy ) {
 	case GLUT_KEY_F11: z += 0.1; break;
 	case GLUT_KEY_F12: z -= 0.1; break;
 	case GLUT_KEY_INSERT: drawAxes = (drawAxes==0) ? 1 : 0; break;
-	case GLUT_KEY_HOME: break;
+	case GLUT_KEY_HOME: displayThetas(); break;
 	case GLUT_KEY_PAGE_UP: break;
 	}
 	// redibuja la escena
