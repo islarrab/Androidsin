@@ -228,20 +228,29 @@ void drawEllipse(GLfloat rx, GLfloat ry, GLint slices) {
 void drawSword(GLfloat length) {
 	GLfloat 
 		GRIP_WIDTH = 0.2,
-		GRIP_LENGTH = 1,
+		GRIP_LENGTH = 1.5,
 		POMMEL_SIZE = 0.4,
-		GUARD_RX = 0.8,
-		GUARD_RY = 1.4,
-		BLADE_RX = 0.2,
-		BLADE_RY = 0.8;
+		GUARD_RX = 0.3,
+		GUARD_RY = 1.0,
+		BLADE_RX = 0.1,
+		BLADE_RY = 0.6;
 	
 	glPushMatrix();
+	  // Grip
+	  glCallList(GOLD_MATERIAL);
+	  glTranslatef(0, 0, -GRIP_LENGTH/2);
 	  drawCylinder(GRIP_WIDTH,GRIP_WIDTH,GRIP_LENGTH,5,1);
+	  
+	  // Pommel
 	  glPushMatrix();
+	    glCallList(RUBY_MATERIAL);
 	    glTranslatef(0,0,-POMMEL_SIZE/2);
 	    drawSphere(POMMEL_SIZE, 360, 5, 5);
 	  glPopMatrix();
-	  glTranslatef(0,0,1);
+
+	  // Guard
+	  glCallList(GOLD_MATERIAL);
+	  glTranslatef(0,0,GRIP_LENGTH);
 	  drawCylinder(GUARD_RX, GUARD_RY, 0.1, 10, 1);
 	  glPushMatrix();
 		glRotatef(180,1,0,0);
@@ -249,6 +258,9 @@ void drawSword(GLfloat length) {
 	  glPopMatrix();
 	  glTranslatef(0, 0, 0.1);
 	  drawEllipse(GUARD_RX, GUARD_RY, 10);
+
+	  // Blade
+	  glCallList(STEEL_MATERIAL);
 	  drawCylinder(BLADE_RX, BLADE_RY, length, 4, 1);
 	  glTranslatef(0, 0, length);
 	  

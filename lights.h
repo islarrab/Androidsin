@@ -27,7 +27,7 @@ void initLights() {
 	glEnable(GL_COLOR);
 	glEnable(GL_LIGHT0);
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, no_light);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, dim_light);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, white_light);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
 }

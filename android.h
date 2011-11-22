@@ -5,12 +5,12 @@
 
 int stacks=50, slices=50;
 
-int theta[36] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; 
+int theta[39] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; 
 
 // Formato:
 // { {xmin, xmax}, {ymin, ymax}, {zmin, zmax}, ... }
 
-int limits[36][2] = {
+int limits[39][2] = {
 	{INT_MIN, INT_MAX}, {INT_MIN, INT_MAX}, {INT_MIN, INT_MAX}, // ???
 	{INT_MIN, INT_MAX}, {INT_MIN, INT_MAX}, {INT_MIN, INT_MAX}, // Torso
 	{-10,	10},	{-10,	10},	{-90,	90},	// Cabeza
@@ -19,10 +19,11 @@ int limits[36][2] = {
 	{-160,	0},		{0,		0},		{0,		0},		// Brazo derecho inferior
 	{-180,	45},	{0,		180},	{0,		180},	// Brazo izquierdo superior
 	{-160,	0},		{0,		0},		{0,		0},		// Brazo izquierdo inferior
-	{-90,	10},	{-45,	10},	{-45,	45},	// Pierna derecha superior
+	{-90,	45},	{-45,	10},	{-45,	45},	// Pierna derecha superior
 	{0,		160},	{0,		0},		{0,		0},		// Pierna derecha inferior
-	{-90,	10},	{-10,	45},	{-45,	45},	// Pierna izquierda superior
+	{-90,	45},	{-10,	45},	{-45,	45},	// Pierna izquierda superior
 	{0,		160},	{0,		0},		{0,		0},		// Pierna izquierda inferior
+	{-45,	45},	{-45,	45},	{-45,	45},		// Espada
 };
 
 int drawAxes = 0;
@@ -132,7 +133,9 @@ class Head : public Node {
 
 		glCallList(HEAD_MATERIAL);
 
-		drawHalfSphere(HEAD_SIZE, stacks, slices);
+		glRotatef(90, 1, 0, 0);
+		drawSphere(HEAD_SIZE, 180, slices, stacks);
+		glRotatef(-90, 1, 0, 0);
 		gluDisk(quad, 0, HEAD_SIZE, 50, 1);
 
 		glCallList(EYE_MATERIAL);
@@ -154,6 +157,7 @@ class Head : public Node {
 		// Antena Derecha
 		glPushMatrix();
 			glRotatef(30, 0, 1, 0);
+			glTranslatef(0, 0, HEAD_SIZE);
 			gluCylinder(quad, ANTENA_RADIUS, ANTENA_RADIUS, ANTENA_LENGTH, 50, 10);
 			glTranslatef(0, 0, ANTENA_LENGTH);
 			gluSphere(quad, ANTENA_RADIUS, 10, 10);
@@ -162,6 +166,7 @@ class Head : public Node {
 		// Antena Izquierda
 		glPushMatrix();
 			glRotatef(-30, 0, 1, 0);
+			glTranslatef(0, 0, HEAD_SIZE);
 			gluCylinder(quad, ANTENA_RADIUS, ANTENA_RADIUS, ANTENA_LENGTH, 50, 10);
 			glTranslatef(0, 0, ANTENA_LENGTH);
 			gluSphere(quad, ANTENA_RADIUS, 10, 10);
@@ -314,6 +319,22 @@ class LowerLeftLeg : public Node {
 	}
 };
 
+class Sword : public Node {
+	public:
+	void draw() const {
+		GLUquadric* quad = gluNewQuadric();
+		glRotatef(-90, 1, 0, 0);
+		glTranslatef(0,-0.25, 0);
+		glRotatef(theta[36],1,0,0);//90
+		glRotatef(theta[37],0,1,0);
+		glRotatef(theta[38],0,0,1);
+
+		if (drawAxes) displayAxes();
+
+		drawSword(4);
+	}
+};
+
 Torso* torso = new Torso();
 Neck* neck = new Neck();
 Head* head = new Head();
@@ -325,6 +346,7 @@ UpperRightLeg* urLeg = new UpperRightLeg();
 LowerRightLeg* lrLeg = new LowerRightLeg();
 UpperLeftLeg* ulLeg = new UpperLeftLeg();
 LowerLeftLeg* llLeg = new LowerLeftLeg();
+Sword* sword = new Sword();
 
 void initTree() {
 	// Se arma el arbol
@@ -338,6 +360,7 @@ void initTree() {
 	// Brazo Derecho
 	urArm->setSibling(ulLeg);
 	urArm->setChild(lrArm);
+	lrArm->setChild(sword);
 
 	// Brazo Izquierdo
 	ulArm->setSibling(urArm);
@@ -405,6 +428,10 @@ void initTree() {
 	glLoadIdentity();
 	glTranslatef(0, 0, LEG_LENGTH);
 	glGetFloatv(GL_MODELVIEW_MATRIX, llLeg->m);
+
+	// Espada
+	glLoadIdentity();
+	glGetFloatv(GL_MODELVIEW_MATRIX, sword->m);
 }
 
 #endif

@@ -27,6 +27,7 @@
 #define LRL   9 //LowerRightLeg
 #define ULL   10 //UpperLeftLeg
 #define LLL   11 //LowerLeftLeg
+#define SWORD 12 //Espada
 
 GLfloat angx, angy;
 
@@ -75,6 +76,9 @@ void menuCallback (int id) {
 		break;
 	case LLL:
 		menu = LLL;
+		break;
+	case SWORD:
+		menu = SWORD;
 		break;
 	}
 
@@ -134,9 +138,9 @@ void displayevent(void) {
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
 	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
 
-	drawSword(5);
+	//drawSword(5);
 	
-	//traverse(torso);
+	traverse(torso);
 
 	glutPostRedisplay();
 	// muestra la escena
@@ -232,6 +236,8 @@ int main(int argc, char** argv) {
 	initLights();
 	initTree();
 	
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
@@ -247,18 +253,34 @@ int main(int argc, char** argv) {
 
 
 	//Menu Mouse
-	glutCreateMenu(menuCallback);
+	//Sub menus for arms
+	int subMenuBrazos1 = glutCreateMenu(menuCallback);
+	glutAddMenuEntry("Superior",URA);
+	glutAddMenuEntry("Inferior",LRA);
+	glutAddMenuEntry("Espada", SWORD);
+	int subMenuBrazos2 = glutCreateMenu(menuCallback);
+	glutAddMenuEntry("Superior",ULA);
+	glutAddMenuEntry("Inferior",LLA);
+	int subMenuBrazos = glutCreateMenu(menuCallback);
+	glutAddSubMenu("Derecho", subMenuBrazos1);
+	glutAddSubMenu("Izquierdo", subMenuBrazos2);
 
+	//Sub menus for legs
+	int subMenuPiernas1 = glutCreateMenu(menuCallback);
+	glutAddMenuEntry("Superior",URL);
+	glutAddMenuEntry("Inferior",LRL);
+	int subMenuPiernas2 = glutCreateMenu(menuCallback);
+	glutAddMenuEntry("Superior",ULL);
+	glutAddMenuEntry("Inferior",LLL);
+	int subMenuPiernas = glutCreateMenu(menuCallback);
+	glutAddSubMenu("Derecha", subMenuPiernas1);
+	glutAddSubMenu("Izquierda", subMenuPiernas2);
+
+	glutCreateMenu(menuCallback);
 	glutAddMenuEntry("Torso",TORSO);
 	glutAddMenuEntry("Cabeza",HEAD);
-	glutAddMenuEntry("Brazo Derecho Superior",URA);
-	glutAddMenuEntry("Brazo Derecho Inferior",LRA);
-	glutAddMenuEntry("Brazo Izquierdo Superior",ULA);
-	glutAddMenuEntry("Brazo Izquierdo Inferior",LLA);
-	glutAddMenuEntry("Pierna Derecha",URL);
-	glutAddMenuEntry("Pierna Derecha Inferior",LRL);
-	glutAddMenuEntry("Pierna Izquierda",ULL);
-	glutAddMenuEntry("Pierna Izquierda Inferior",LLL);
+	glutAddSubMenu("Brazos", subMenuBrazos);
+	glutAddSubMenu("Piernas", subMenuPiernas);
 
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
