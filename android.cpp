@@ -114,25 +114,25 @@ void displayevent(void) {
 	glEnable( GL_DEPTH_TEST );
 
 	//Habilita el manejo de texturas
-    	//glEnable(GL_TEXTURE_2D);
+    	glEnable(GL_TEXTURE_2D);
 
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
 
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
-
+	/* TEXTURAS */
+	// traslada la escena al centro del espacio
+	glTranslatef( -2, 0, -8 ); //-16.5
+	drawCube(20);
+	glLoadIdentity();
 	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
 
 	// movimiento de camara
 	glTranslatef(-camera_position[0], -camera_position[1], -camera_position[2]);
 
-		/* TEXTURAS */
-	// traslada la escena al centro del espacio
-	//glTranslatef( -2, 0, -8 ); //-16.5
-	//drawCube(20);
-
+		
 	if (display_light_source) drawLightSource();
 
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);

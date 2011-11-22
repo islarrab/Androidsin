@@ -13,7 +13,8 @@ void drawSphere(GLfloat, GLfloat, GLint, GLint);
 void drawCube(float size) {
 	float a = size/2;
 	float b = a*-1;
-	coloring(BLUE);
+	glDisable(GL_LIGHTING);
+	coloring(WHITE);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // frontal
 	glNormal3d(0,0,1);
@@ -23,7 +24,7 @@ void drawCube(float size) {
 	glTexCoord2f(0.0f,1.0f); glVertex3f( b, a, a );
 	glEnd();
 
-	coloring(GREEN);
+	coloring(WHITE);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // lateral derecha
 	glTexCoord2f(1.0f,1.0f); glVertex3f( a, b, a );
@@ -32,7 +33,7 @@ void drawCube(float size) {
 	glTexCoord2f(0.0f,1.0f); glVertex3f( a, a, a );
 	glEnd();
 
-	coloring(RED);
+	coloring(WHITE);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // superior
 	glNormal3d(0,0,1);
@@ -42,7 +43,7 @@ void drawCube(float size) {
 	glTexCoord2f(0.0f,1.0f); glVertex3f( b, a, b );
 	glEnd();
 
-	coloring(PURPLE);
+	coloring(WHITE);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // trasera
 	glNormal3d(0,0,1);
@@ -52,7 +53,7 @@ void drawCube(float size) {
 	glTexCoord2f(0.0f,1.0f); glVertex3f( b, a, b );
 	glEnd();
 
-	coloring(CYAN);
+	coloring(WHITE);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // lateral izquiera
 	glNormal3d(0,0,1);
@@ -62,7 +63,7 @@ void drawCube(float size) {
 	glTexCoord2f(0.0f,1.0f); glVertex3f( b, a, a );
 	glEnd();
 
-	coloring(YELLOW);
+	coloring(WHITE);
 	glBindTexture(GL_TEXTURE_2D,texture[1]);
 	glBegin( GL_QUADS ); // inferior
 	glNormal3d(0,0,1);
@@ -71,6 +72,7 @@ void drawCube(float size) {
 	glTexCoord2f(0.0f,0.0f); glVertex3f( b, b, b );
 	glTexCoord2f(0.0f,1.0f); glVertex3f( a, b, b );
 	glEnd();
+	glEnable(GL_LIGHTING);
 }
 
 void drawSquarePrism(float x, float y, float z) {
