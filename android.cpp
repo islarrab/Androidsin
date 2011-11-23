@@ -28,6 +28,7 @@
 #define ULL   10 //UpperLeftLeg
 #define LLL   11 //LowerLeftLeg
 #define SWORD 12 //Espada
+#define ANIMA 13 //AnimaciÃ³n
 
 GLfloat angx, angy;
 
@@ -80,6 +81,10 @@ void menuCallback (int id) {
 	case SWORD:
 		menu = SWORD;
 		break;
+	case ANIMA:
+		//menu = ANIMA;
+		// Llamar a funciÃ³n animate(int)
+		break;
 	}
 
 	glutPostRedisplay();
@@ -88,7 +93,7 @@ void menuCallback (int id) {
 //recorrido a profundidad: primero los hijos, luego los hermanos
 void traverse (Node *node)
 {
-	//guardar la matriz actual porque las transformaciones a realizarse sólo deben afectarle a él y a sus hijos
+	//guardar la matriz actual porque las transformaciones a realizarse sï¿½lo deben afectarle a ï¿½l y a sus hijos
 	glPushMatrix();
 
 	//transformar relativo a su padre
@@ -100,7 +105,7 @@ void traverse (Node *node)
 	if (node->getChild() != NULL)
 		traverse(node->getChild());
 	glPopMatrix();
-	// después recorrer los hermanos (si hay)
+	// despuï¿½s recorrer los hermanos (si hay)
 	if(node->getSibling() != NULL)
 		traverse(node->getSibling());
 }
@@ -119,14 +124,14 @@ void displayevent(void) {
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
 
-	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
+	// inicializa la Matriz de transformaciï¿½n de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
 	/* TEXTURAS */
 	// traslada la escena al centro del espacio
 	glTranslatef( -2, 0, -8 ); //-16.5
 	drawCube(20);
 	glLoadIdentity();
-	// inicializa la Matriz de transformación de coordenadas (Matriz del Modelo)
+	// inicializa la Matriz de transformaciï¿½n de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
 
 	// movimiento de camara
@@ -149,10 +154,10 @@ void displayevent(void) {
 }
 
 void reshapeevent(GLsizei width, GLsizei LENGTH) {
-	// establecer el área de visualizacion en la ventana
+	// establecer el ï¿½rea de visualizacion en la ventana
 	glViewport(0,0,width,LENGTH);
 
-	// seleccionar la matriz de Proyección
+	// seleccionar la matriz de Proyecciï¿½n
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
@@ -217,10 +222,10 @@ int main(int argc, char** argv) {
 	lecturaDeArchivo();
 	//Ciclo infinito
 	//if(interruptor)
-		// inicialización del GLUT
+		// inicializaciï¿½n del GLUT
 		glutInit( &argc, argv );
 
-		// inicialiación de la ventana
+		// inicialiaciï¿½n de la ventana
 		glutInitWindowSize( 600, 600 );
 		glutInitWindowPosition( 100, 100 );
 		glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
@@ -228,7 +233,7 @@ int main(int argc, char** argv) {
 
 		glutSetWindowTitle("Android");
 
-		// inicialización de los datos del programa
+		// inicializaciï¿½n de los datos del programa
 		z = -10;
 		cargaImagenes();
 		//interruptor = false;
@@ -282,6 +287,7 @@ int main(int argc, char** argv) {
 	glutAddMenuEntry("Cabeza",HEAD);
 	glutAddSubMenu("Brazos", subMenuBrazos);
 	glutAddSubMenu("Piernas", subMenuPiernas);
+	glutAddMenuEntry("Mover espada", ANIMA);
 
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
