@@ -15,7 +15,6 @@
 #include "Render.h"
 #include "mouse.h"
 
-
 #define TORSO 1 //Torso
 #define HEAD  2 //Cabeza
 #define NECK  3 //Cuello
@@ -28,8 +27,11 @@
 #define ULL   10 //UpperLeftLeg
 #define LLL   11 //LowerLeftLeg
 #define SWORD 12 //Espada
-#define ANIMA 13 //Animación
+#define DEFAULT_ANIMATION 13
+#define FIGHTING_ANIMATION 14
+#define SWING_ANIMATION 15
 
+int current_animation = 0;
 
 // The time in milliseconds between timer ticks
 #define TIMERMSECS 1
@@ -100,11 +102,35 @@ void menuCallback (int id) {
 	case SWORD:
 		menu = SWORD;
 		break;
-	case ANIMA:
-		//menu = ANIMA;
-		// Llamar a función animate(int)
-		//glutTimerFunc(TIMERMSECS, animate, 0);
-		animacion();
+	case DEFAULT_ANIMATION:
+		if(current_animation == 0) {
+			animation = true;
+			animacion();
+		} else {
+			current_animation = 0;
+			animation = false;
+			animacion();
+		}
+		break;
+	case FIGHTING_ANIMATION:
+		if(current_animation == 1) {
+			animation = true;
+			animacion();
+		} else {
+			current_animation = 1;
+			animation = false;
+			animacion();
+		}
+		break;
+	case SWING_ANIMATION:
+		if(current_animation == 2) {
+			animation = true;
+			animacion();
+		} else {
+			current_animation = 2;
+			animation = false;
+			animacion();
+		}
 		break;
 	}
 
@@ -233,10 +259,11 @@ void lecturaDeArchivo()
 
 static void animate(int value) {
 	// Set up the next timer tick (do this first)
-
 	if(animation)
 		glutTimerFunc(TIMERMSECS, animate, 0);
 
+	if (current_animation == 2) {
+		
 	if(theta[15] < -60 || theta[15] >0){
 		theta[15] = 0;
 		direccion = 1;
@@ -248,6 +275,28 @@ static void animate(int value) {
 		direccion = -1;	
 
 	theta[15] = theta[15] + (3 * direccion);
+
+	} else {
+
+
+	int *thetaEnd = positions[current_animation];
+	int v = 1;
+
+	for(int i=0; i<39; i++) {
+		//printf("%d, %d\n",thetaEnd[i], theta[i]);
+		if(thetaEnd[i] != theta[i]) {
+			if(thetaEnd[i]>theta[i]) {
+				theta[i] += v; 
+				if(thetaEnd[i]<theta[i]) theta[i] = thetaEnd[i];
+			//	printf("Entered te<t\n");
+			} else {
+				theta[i] -= v;
+				if(thetaEnd[i]>theta[i]) theta[i] = thetaEnd[i];
+				//printf("Entered te>t\n");
+			}
+		}
+	}
+	}
 
 	glutPostRedisplay();
 }
@@ -292,10 +341,6 @@ int main(int argc, char** argv) {
 		0.0, 1.0, 0.0);      /* up is in positive Y direction */
 	glTranslatef(0.0, 0.0, -1.0);
 
-
-	// Start the timer
-	//glutTimerFunc(TIMERMSECS, animate, 0);
-
 	// registro de los eventos
 	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana
 	glutDisplayFunc( displayevent ); // Funcion de Dibujo
@@ -304,6 +349,7 @@ int main(int argc, char** argv) {
 	glutMouseFunc(mouse);
 	glutMotionFunc(mouseMotion);
 
+	glutTimerFunc(TIMERMSECS, animate, 0);
 
 	//Menu Mouse
 	//Sub menus for arms
@@ -329,12 +375,18 @@ int main(int argc, char** argv) {
 	glutAddSubMenu("Derecha", subMenuPiernas1);
 	glutAddSubMenu("Izquierda", subMenuPiernas2);
 
+	//Sub menu for animations
+	int subMenuAnima = glutCreateMenu(menuCallback);
+	glutAddMenuEntry("Default", DEFAULT_ANIMATION);
+	glutAddMenuEntry("En garde", FIGHTING_ANIMATION);
+	glutAddMenuEntry("Swing sword", SWING_ANIMATION);
+
 	glutCreateMenu(menuCallback);
 	glutAddMenuEntry("Torso",TORSO);
 	glutAddMenuEntry("Cabeza",HEAD);
 	glutAddSubMenu("Brazos", subMenuBrazos);
 	glutAddSubMenu("Piernas", subMenuPiernas);
-	glutAddMenuEntry("Mover espada", ANIMA);
+	glutAddSubMenu("Animaciones", subMenuAnima);
 
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
