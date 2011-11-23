@@ -30,14 +30,18 @@
 #define SWORD 12 //Espada
 #define ANIMA 13 //Animación
 
+
 // The time in milliseconds between timer ticks
-#define TIMERMSECS 33
+#define TIMERMSECS 66
 
 GLfloat angx, angy;
 
 bool interruptor = true; //Para interruptor
 
 const int NUM_PARTES = 11;
+
+int direccion = 1; //empieza positivo
+bool animation = false;
 
 //Prototipos
 static void animate(int value);
@@ -48,6 +52,16 @@ void cargaImagenes(){
      //Lectura y Carga de Imagenes en el Arreglo
      texture[0] = LoadTexture("Data/ladrillos.tga");
      texture[1] = LoadTexture("Data/marmol.tga");
+}
+
+void animacion(){
+	if(!animation){
+		animation = true;
+		glutTimerFunc(TIMERMSECS, animate, 0);
+	}
+	else{
+		animation = false;
+	}
 }
 
 void menuCallback (int id) {
@@ -91,7 +105,8 @@ void menuCallback (int id) {
 	case ANIMA:
 		//menu = ANIMA;
 		// Llamar a función animate(int)
-		glutTimerFunc(TIMERMSECS, animate, 0);
+		//glutTimerFunc(TIMERMSECS, animate, 0);
+		animacion();
 		break;
 	}
 
@@ -225,10 +240,21 @@ void lecturaDeArchivo()
 
 static void animate(int value) {
 	// Set up the next timer tick (do this first)
-    	//glutTimerFunc(TIMERMSECS, animate, 0);
-
+	
+	if(animation)
+    		glutTimerFunc(TIMERMSECS, animate, 0);
+	
+	if(theta[15] < -60 || theta[15] >0){
+		theta[15] = 0;
+		direccion = 1;
+	}
 	// ##### REPLACE WITH YOUR OWN GAME/APP MAIN CODE HERE #####
-	theta[4] = theta[4] + 60;
+	if(theta[15] == -60 )
+		direccion = 1;
+	else if(theta[15] == 0 )
+		direccion = -1;	
+	
+	theta[15] = theta[15] + (10 * direccion);
 
 	// Rotate the triangle
 	//rot += ROTSTEP;
@@ -238,7 +264,7 @@ static void animate(int value) {
 	
 
 	// Force a redisplay to render the new// The time in milliseconds between timer ticks
-	#define TIMERMSECS 33 image
+	
 	glutPostRedisplay();
 }
 
@@ -275,7 +301,7 @@ int main(int argc, char** argv) {
 	glMatrixMode(GL_MODELVIEW);
 
 	// Start the timer
-    	glutTimerFunc(TIMERMSECS, animate, 0);
+    	//glutTimerFunc(TIMERMSECS, animate, 0);
 
 	// registro de los eventos
 	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana
