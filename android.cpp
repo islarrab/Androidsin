@@ -30,17 +30,38 @@
 #define SWORD 12 //Espada
 #define ANIMA 13 //Animación
 
+
+// The time in milliseconds between timer ticks
+#define TIMERMSECS 66
+
 GLfloat angx, angy;
 
 bool interruptor = true; //Para interruptor
 
 const int NUM_PARTES = 11;
 
+int direccion = 1; //empieza positivo
+bool animation = false;
+
+//Prototipos
+static void animate(int value);
+
+
 //Metodo para cargar imagenes de texturas.
 void cargaImagenes(){
      //Lectura y Carga de Imagenes en el Arreglo
      texture[0] = LoadTexture("Data/ladrillos.tga");
      texture[1] = LoadTexture("Data/marmol.tga");
+}
+
+void animacion(){
+	if(!animation){
+		animation = true;
+		glutTimerFunc(TIMERMSECS, animate, 0);
+	}
+	else{
+		animation = false;
+	}
 }
 
 void menuCallback (int id) {
@@ -84,6 +105,8 @@ void menuCallback (int id) {
 	case ANIMA:
 		//menu = ANIMA;
 		// Llamar a función animate(int)
+		//glutTimerFunc(TIMERMSECS, animate, 0);
+		animacion();
 		break;
 	}
 
@@ -167,7 +190,6 @@ void reshapeevent(GLsizei width, GLsizei LENGTH) {
 	// Restaurar a la matriz del Modelo (escena)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
 } // reshape
 
 using namespace std;
@@ -217,6 +239,36 @@ void lecturaDeArchivo()
 
 }
 
+static void animate(int value) {
+	// Set up the next timer tick (do this first)
+	
+	if(animation)
+    		glutTimerFunc(TIMERMSECS, animate, 0);
+	
+	if(theta[15] < -60 || theta[15] >0){
+		theta[15] = 0;
+		direccion = 1;
+	}
+	// ##### REPLACE WITH YOUR OWN GAME/APP MAIN CODE HERE #####
+	if(theta[15] == -60 )
+		direccion = 1;
+	else if(theta[15] == 0 )
+		direccion = -1;	
+	
+	theta[15] = theta[15] + (10 * direccion);
+
+	// Rotate the triangle
+	//rot += ROTSTEP;
+
+	// ##### END OF GAME/APP MAIN CODE #####
+
+	
+
+	// Force a redisplay to render the new// The time in milliseconds between timer ticks
+	
+	glutPostRedisplay();
+}
+
 int main(int argc, char** argv) {
 	//Lectura de Archivo
 	lecturaDeArchivo();
@@ -248,6 +300,9 @@ int main(int argc, char** argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 	glMatrixMode(GL_MODELVIEW);
+
+	// Start the timer
+    	//glutTimerFunc(TIMERMSECS, animate, 0);
 
 	// registro de los eventos
 	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana
