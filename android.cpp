@@ -30,11 +30,18 @@
 #define SWORD 12 //Espada
 #define ANIMA 13 //Animación
 
+// The time in milliseconds between timer ticks
+#define TIMERMSECS 33
+
 GLfloat angx, angy;
 
 bool interruptor = true; //Para interruptor
 
 const int NUM_PARTES = 11;
+
+//Prototipos
+static void animate(int value);
+
 
 //Metodo para cargar imagenes de texturas.
 void cargaImagenes(){
@@ -84,6 +91,7 @@ void menuCallback (int id) {
 	case ANIMA:
 		//menu = ANIMA;
 		// Llamar a función animate(int)
+		glutTimerFunc(TIMERMSECS, animate, 0);
 		break;
 	}
 
@@ -166,7 +174,6 @@ void reshapeevent(GLsizei width, GLsizei LENGTH) {
 	// Restaurar a la matriz del Modelo (escena)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
 } // reshape
 
 using namespace std;
@@ -216,6 +223,25 @@ void lecturaDeArchivo()
 
 }
 
+static void animate(int value) {
+	// Set up the next timer tick (do this first)
+    	//glutTimerFunc(TIMERMSECS, animate, 0);
+
+	// ##### REPLACE WITH YOUR OWN GAME/APP MAIN CODE HERE #####
+	theta[4] = theta[4] + 60;
+
+	// Rotate the triangle
+	//rot += ROTSTEP;
+
+	// ##### END OF GAME/APP MAIN CODE #####
+
+	
+
+	// Force a redisplay to render the new// The time in milliseconds between timer ticks
+	#define TIMERMSECS 33 image
+	glutPostRedisplay();
+}
+
 int main(int argc, char** argv) {
 	//Lectura de Archivo
 	lecturaDeArchivo();
@@ -247,6 +273,9 @@ int main(int argc, char** argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 	glMatrixMode(GL_MODELVIEW);
+
+	// Start the timer
+    	glutTimerFunc(TIMERMSECS, animate, 0);
 
 	// registro de los eventos
 	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana
