@@ -135,6 +135,7 @@ void displayevent(void) {
 
 	if (display_light_source) drawLightSource();
 
+	// Para la rotacion con el mouse
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
 	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
 
