@@ -32,7 +32,7 @@
 
 
 // The time in milliseconds between timer ticks
-#define TIMERMSECS 66
+#define TIMERMSECS 1
 
 GLfloat angx, angy;
 
@@ -46,20 +46,18 @@ bool animation = false;
 //Prototipos
 static void animate(int value);
 
-
 //Metodo para cargar imagenes de texturas.
 void cargaImagenes(){
-     //Lectura y Carga de Imagenes en el Arreglo
-     texture[0] = LoadTexture("Data/ladrillos.tga");
-     texture[1] = LoadTexture("Data/marmol.tga");
+	//Lectura y Carga de Imagenes en el Arreglo
+	texture[0] = LoadTexture("Data/ladrillos.tga");
+	texture[1] = LoadTexture("Data/marmol.tga");
 }
 
-void animacion(){
-	if(!animation){
+void animacion() {
+	if(!animation) {
 		animation = true;
 		glutTimerFunc(TIMERMSECS, animate, 0);
-	}
-	else{
+	} else {
 		animation = false;
 	}
 }
@@ -140,19 +138,12 @@ void displayevent(void) {
 
 	// verfica superficies visibles
 	glEnable( GL_DEPTH_TEST );
-
-	//Habilita el manejo de texturas
-    	glEnable(GL_TEXTURE_2D);
-
+	
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
 
 	// inicializa la Matriz de transformaci�n de coordenadas (Matriz del Modelo)
 	glLoadIdentity();
-	/* TEXTURAS */
-	
-	// traslada la escena al centro del espacio
-	//glTranslatef( -2, 0, -8 ); //-16.5
 	
 	// movimiento de camara
 	glTranslatef(-camera_position[0], -camera_position[1], -camera_position[2]);
@@ -161,10 +152,17 @@ void displayevent(void) {
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
 	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
 
+	glPushMatrix();
+	glTranslatef(0,3.4,0);
+	glEnable(GL_TEXTURE_2D);
 	drawCube(20);
-	if (display_light_source) drawLightSource();
-	traverse(torso);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
 	
+	if (display_light_source) drawLightSource();
+
+	traverse(torso);
+
 	glutPostRedisplay();
 	// muestra la escena
 	glutSwapBuffers();
@@ -235,31 +233,22 @@ void lecturaDeArchivo()
 
 static void animate(int value) {
 	// Set up the next timer tick (do this first)
-	
+
 	if(animation)
-    		glutTimerFunc(TIMERMSECS, animate, 0);
-	
+		glutTimerFunc(TIMERMSECS, animate, 0);
+
 	if(theta[15] < -60 || theta[15] >0){
 		theta[15] = 0;
 		direccion = 1;
 	}
-	// ##### REPLACE WITH YOUR OWN GAME/APP MAIN CODE HERE #####
+
 	if(theta[15] == -60 )
 		direccion = 1;
 	else if(theta[15] == 0 )
 		direccion = -1;	
-	
-	theta[15] = theta[15] + (10 * direccion);
 
-	// Rotate the triangle
-	//rot += ROTSTEP;
+	theta[15] = theta[15] + (3 * direccion);
 
-	// ##### END OF GAME/APP MAIN CODE #####
-
-	
-
-	// Force a redisplay to render the new// The time in milliseconds between timer ticks
-	
 	glutPostRedisplay();
 }
 
@@ -268,35 +257,44 @@ int main(int argc, char** argv) {
 	lecturaDeArchivo();
 	//Ciclo infinito
 	//if(interruptor)
-		// inicializaci�n del GLUT
-		glutInit( &argc, argv );
+	// inicializaci�n del GLUT
+	glutInit( &argc, argv );
 
-		// inicialiaci�n de la ventana
-		glutInitWindowSize( 600, 600 );
-		glutInitWindowPosition( 100, 100 );
-		glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
-		glutCreateWindow("");
+	// inicialiaci�n de la ventana
+	glutInitWindowSize( 600, 600 );
+	glutInitWindowPosition( 100, 100 );
+	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutCreateWindow("");
 
-		glutSetWindowTitle("Android");
+	glutSetWindowTitle("Android");
 
-		// inicializaci�n de los datos del programa
-		z = -10;
-		cargaImagenes();
-		//interruptor = false;
+	// inicializaci�n de los datos del programa
+	z = -10;
+	cargaImagenes();
+	//interruptor = false;
 	//}
 	initMaterials();
 	initLights();
 	initTree();
-	
+
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
+	
+	glMatrixMode(GL_PROJECTION);
+	gluPerspective( /* degrees field of view */ 50.0,
+		/* aspect ratio */ 1.0, /* Z near */ 1.0, /* Z far */ 10.0);
 	glMatrixMode(GL_MODELVIEW);
+	gluLookAt(0.0, 0.0, 5.0,  /* eye is at (0,0,5) */
+		0.0, 0.0, 0.0,      /* center is at (0,0,0) */
+		0.0, 1.0, 0.0);      /* up is in positive Y direction */
+	glTranslatef(0.0, 0.0, -1.0);
+
 
 	// Start the timer
-    	//glutTimerFunc(TIMERMSECS, animate, 0);
+	//glutTimerFunc(TIMERMSECS, animate, 0);
 
 	// registro de los eventos
 	glutReshapeFunc( reshapeevent ); // Manejo de Cambio de Ventana
